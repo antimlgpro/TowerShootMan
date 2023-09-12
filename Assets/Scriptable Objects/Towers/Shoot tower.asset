@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Shoot tower
   m_EditorClassIdentifier: 
   damage: 32
-  range: 50
+  range: 80

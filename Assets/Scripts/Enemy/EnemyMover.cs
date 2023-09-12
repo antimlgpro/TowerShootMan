@@ -14,16 +14,13 @@ public class EnemyMover : MonoBehaviour
 	public void Initialize(EnemyObject enemyObject, float speedMultiplier)
 	{
 		speed = enemyObject.speed * speedMultiplier;
+
+		nodes = NodeManager.Instance.nodes;
 	}
 
 	public void Stop()
 	{
 		stopMoving = true;
-	}
-
-	public void SetNodes(List<Transform> _nodes)
-	{
-		this.nodes = _nodes;
 	}
 
 	// Update is called once per frame

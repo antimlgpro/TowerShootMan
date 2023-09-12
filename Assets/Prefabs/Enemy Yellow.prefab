@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: -486238823205566983}
   - component: {fileID: 866188964345992183}
   m_Layer: 0
-  m_Name: Emeny
-  m_TagString: Untagged
+  m_Name: Enemy Yellow
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ae275bad7fffc044792e33a73a8272f2, type: 2}
+  - {fileID: 2100000, guid: f8a43569121b1e44285f71e4aa1b1a19, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,7 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e20096e4dae3124fb0d5038d2b1e908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
 --- !u!114 &866188964345992183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,3 +123,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0724352eec70cdd4e875308162ae6255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
+  speed: 0
+  armorTier: 0

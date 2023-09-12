@@ -5,21 +5,23 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
 	// Pathing
-	public List<Transform> nodes = new List<Transform>();
+	private List<Transform> nodes;
 
 
 	// Waves
-	public List<Wave> waves = new List<Wave>();
+	public List<Wave> waves = new();
 	private int currentWaveIndex = 0;
 	private bool isWaveRunning = false;
 	private bool isWaveSpawned = false;
 
 
-	public List<GameObject> enemies = new List<GameObject>();
+	public List<GameObject> enemies = new();
 	private bool enemiesVisible = false;
 
 	void Start()
 	{
+		nodes = NodeManager.Instance.nodes;
+
 		SpawnWave(waves[currentWaveIndex]);
 		StartWave();
 	}
@@ -42,7 +44,6 @@ public class EnemySpawner : MonoBehaviour
 
 				// Initialize enemy
 				var mover = enemy.GetComponent<EnemyMover>();
-				mover.SetNodes(nodes);
 				mover.Initialize(enemyObject, containers.speedMultiplier);
 				enemy.GetComponent<Enemy>().SetEnemyObject(enemyObject);
 
@@ -78,6 +79,9 @@ public class EnemySpawner : MonoBehaviour
 		enemiesVisible = false;
 		enemyIndex = 0;
 		timeElapsed = 0;
+
+		SpawnWave(waves[1]);
+		StartWave();
 	}
 
 	float timeElapsed = 0;
