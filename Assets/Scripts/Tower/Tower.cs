@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Tower : MonoBehaviour
 {
@@ -12,48 +13,51 @@ public class Tower : MonoBehaviour
 
 	[SerializeField] private EnemySpawner enemySpawner;
 
-	private List<GameObject> enemies;
-
+	[SerializeField, Range(1, 40)]
+	private int maxTargets;
 
 	private Vector3 towerResetPosition;
 	private Vector3 gunResetPosition;
 
 	void Start()
 	{
-		enemies = enemySpawner.enemies;
-
 		towerResetPosition = transform.position;
 		gunResetPosition = gunPivot.transform.position;
+
+		StartCoroutine(ShootLoop());
 	}
 
-	// true if target was successfully aquired. 
-	// false if it failed.
-	bool AquireTarget(GameObject enemy) {
-		Vector3 enemyPos = enemy.transform.position;
+	Transform[] AquireTargets() {
+		Collider[] colliders = new Collider[maxTargets];
+		int targets = Physics.OverlapSphereNonAlloc(transform.position, towerObject.range, colliders);
 
-		float distanceToEnemy = Vector3.Distance(transform.position, enemyPos);
-		if (!(distanceToEnemy <= towerObject.range)) return false;
-
-		Vector3 targetPostition = new( 
-			enemyPos.x, 
-        	transform.position.y, 
-            enemyPos.z
-		);
-		transform.LookAt(targetPostition, Vector3.up);
-
-		gunPivot.transform.LookAt(enemyPos, Vector3.up);
-
-
-		if (Physics.Linecast(gunPivot.transform.position, enemyPos, out RaycastHit hit))
+		Transform[] targetArray = new Transform[targets];
+		for (int i = 0; i < targets; i++)
 		{
-			if (!hit.collider.gameObject.CompareTag("Enemy")) return false;
+			targetArray[i] = colliders[i].transform;
 		}
 
-		return true;
+		return targetArray.Where(x => {
+			if (!x.CompareTag("Enemy")) return false;
+			if (!x.gameObject.activeSelf) return false;
+
+			return true;
+		}).ToArray();
 	}
 
-	void ShootTarget(GameObject enemy) {
+	void ShootTarget(Transform target) {
+		Vector3 targetPos = target.transform.position;
+
+		Vector3 targetPostition = new( 
+			targetPos.x, 
+        	transform.position.y, 
+            targetPos.z
+		);
+		transform.LookAt(targetPostition, Vector3.up);
+		gunPivot.transform.LookAt(targetPos, Vector3.up);
+
 		GameObject projectile = Instantiate(projectileObject, projectilePoint.transform.position, Quaternion.identity);
+		projectile.GetComponent<Projectile>().Initialize(towerObject.damage);
 		projectile.GetComponent<Rigidbody>().AddForce(gunPivot.transform.forward * 150, ForceMode.Impulse);
 	}
 
@@ -62,17 +66,21 @@ public class Tower : MonoBehaviour
 		gunPivot.transform.position = gunResetPosition;
 	}
 
+	
+	[SerializeField]
+	private float noTargetCooldown = 1.5f;
 
-	// Aquire target should return a list of valid targets for this frame that can be sorted or selected based on criterias.
-	void Update()
-	{
-		foreach (var enemy in enemies)
-		{
-			bool success = AquireTarget(enemy);
-			if (!success) continue;
 
-			if (success) ShootTarget(enemy);
-			break;
+	IEnumerator ShootLoop() {
+		while (true) {
+			Transform[] targets = AquireTargets();
+
+			if (targets.Length >= 1) {
+				ShootTarget(targets[0]);
+			}
+
+			// Time in seconds between shots
+			yield return new WaitForSeconds(1 / (towerObject.RPM / 60));
 		}
 	}
 }

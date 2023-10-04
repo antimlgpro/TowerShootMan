@@ -5,28 +5,30 @@ using UnityEngine;
 public class EnemyMover : MonoBehaviour
 {
 	private List<Transform> nodes;
+	private EnemySpawner m_Spawner;
 	int targetNodeIndex = 1;
 	float speed = 0;
 
-	bool stopMoving = false;
-	public bool StopMoving => stopMoving;
+	bool isMoving = true;
+	public bool IsMoving => isMoving;
 
-	public void Initialize(EnemyObject enemyObject, float speedMultiplier)
+	public void Initialize(EnemyObject enemyObject, EnemySpawner spawner)
 	{
-		speed = enemyObject.speed * speedMultiplier;
-
+		speed = enemyObject.speed;
 		nodes = NodeManager.Instance.nodes;
+		m_Spawner = spawner;
+		isMoving = true;
 	}
 
 	public void Stop()
 	{
-		stopMoving = true;
+		isMoving = false;
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (stopMoving) return;
+		if (isMoving == false) return;
 
 		if (nodes == null) return;
 
@@ -44,7 +46,10 @@ public class EnemyMover : MonoBehaviour
 			targetNodeIndex += 1;
 
 			// stop moving when we hit the last node
-			if (targetNodeIndex == nodes.Count) stopMoving = true;
+			if (targetNodeIndex == nodes.Count) {
+				isMoving = false;
+				m_Spawner.EnemyFinished.Invoke();
+			};
 		}
 	}
 }

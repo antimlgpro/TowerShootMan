@@ -7,6 +7,8 @@ public class TowerObject : ScriptableObject
 {
 	public float damage;
 	public float range;
+	public float RPM;
 
 	// Upgrades
+	// TODO: Tier object for upgrades
 }

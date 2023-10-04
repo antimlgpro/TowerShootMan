@@ -18,4 +18,6 @@ public class Wave : ScriptableObject
 	}
 
 	public List<EnemyContainer> enemyContainers;
+
+	public float timeBetweenEnemySpawn = 0.25f;
 }
