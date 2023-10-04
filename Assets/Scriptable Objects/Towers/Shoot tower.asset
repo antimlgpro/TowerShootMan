@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184d4e6c64a6fd049957809e47deaeb2, type: 3}
   m_Name: Shoot tower
   m_EditorClassIdentifier: 
-  damage: 32
+  damage: 70
   range: 80
+  RPM: 322

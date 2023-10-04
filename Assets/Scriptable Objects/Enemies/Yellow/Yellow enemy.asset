@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Yellow enemy
   m_EditorClassIdentifier: 
   name: Yellow
-  baseHealth: 120
-  armorTier: 2
+  baseHealth: 100
+  armorTier: 0
   speed: 40
   enemyPrefab: {fileID: 7214744477485525159, guid: 9a38a2d6ca8b654499128085e229e937,
     type: 3}
+  enemyMaterial: {fileID: 2100000, guid: f8a43569121b1e44285f71e4aa1b1a19, type: 2}

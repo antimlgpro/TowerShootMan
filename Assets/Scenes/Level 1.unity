@@ -840,7 +840,27 @@ MonoBehaviour:
   waves:
   - {fileID: 11400000, guid: 1baa33da6a7e4f94da72a3e478539962, type: 2}
   - {fileID: 11400000, guid: c376468d835a59f4ca4fc7c91ba578d9, type: 2}
+  - {fileID: 11400000, guid: 0bb0c7ef461842546af49a07a1626cac, type: 2}
+  currentWaveIndex: 0
   enemies: []
+  WaveStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  WaveStopped:
+    m_PersistentCalls:
+      m_Calls: []
+  EnemyKilled:
+    m_PersistentCalls:
+      m_Calls: []
+  EnemyFinished:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1 &1444017387 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2336889596326519090, guid: 0cb1f5dbf18214e4d88b2866c25f881b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4995634308533194330}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1497987465
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,17 +1210,17 @@ PrefabInstance:
     - target: {fileID: 4995634310413427205, guid: 0cb1f5dbf18214e4d88b2866c25f881b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 156.5
+      value: 149.1
       objectReference: {fileID: 0}
     - target: {fileID: 4995634310413427205, guid: 0cb1f5dbf18214e4d88b2866c25f881b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 26.7
+      value: 32.3
       objectReference: {fileID: 0}
     - target: {fileID: 4995634310413427205, guid: 0cb1f5dbf18214e4d88b2866c25f881b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 167.3
+      value: 178.4
       objectReference: {fileID: 0}
     - target: {fileID: 4995634310413427205, guid: 0cb1f5dbf18214e4d88b2866c25f881b,
         type: 3}
@@ -1236,6 +1256,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6620128329005349232, guid: 0cb1f5dbf18214e4d88b2866c25f881b,
+        type: 3}
+      propertyPath: gunPivot
+      value: 
+      objectReference: {fileID: 1444017387}
+    - target: {fileID: 6620128329005349232, guid: 0cb1f5dbf18214e4d88b2866c25f881b,
+        type: 3}
+      propertyPath: maxTargets
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6620128329005349232, guid: 0cb1f5dbf18214e4d88b2866c25f881b,
         type: 3}
