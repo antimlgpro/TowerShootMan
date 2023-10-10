@@ -16,6 +16,6 @@ MonoBehaviour:
   baseHealth: 100
   armorTier: 0
   speed: 22
-  enemyPrefab: {fileID: 7214744477485525159, guid: adc3ef9a8f7237445b2a52c06515b18f,
+  enemyPrefab: {fileID: 7214744477485525159, guid: 9a38a2d6ca8b654499128085e229e937,
     type: 3}
   enemyMaterial: {fileID: 2100000, guid: ae275bad7fffc044792e33a73a8272f2, type: 2}

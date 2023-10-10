@@ -46,7 +46,14 @@ public class Tower : MonoBehaviour
 	}
 
 	void ShootTarget(Transform target) {
+		// Leading the target
 		Vector3 targetPos = target.transform.position;
+		float distance = Vector3.Distance(projectilePoint.transform.position, targetPos);
+		float velocity = 500;
+		float travelTime = distance/velocity;
+
+		targetPos = targetPos + target.GetComponent<Velocity>().velocity * travelTime;
+
 
 		Vector3 targetPostition = new( 
 			targetPos.x, 
@@ -58,7 +65,7 @@ public class Tower : MonoBehaviour
 
 		GameObject projectile = Instantiate(projectileObject, projectilePoint.transform.position, Quaternion.identity);
 		projectile.GetComponent<Projectile>().Initialize(towerObject.damage);
-		projectile.GetComponent<Rigidbody>().AddForce(gunPivot.transform.forward * 150, ForceMode.Impulse);
+		projectile.GetComponent<Rigidbody>().AddForce(gunPivot.transform.forward * velocity, ForceMode.Impulse);
 	}
 
 	void ResetGun() {
