@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Tower Defense/New tower")]
+[CreateAssetMenu(menuName = "Tower Defense/New Tower")]
 public class TowerObject : ScriptableObject
 {
 	public float damage;
@@ -11,4 +11,7 @@ public class TowerObject : ScriptableObject
 
 	// Upgrades
 	// TODO: Tier object for upgrades
+
+
+	public Tower towerLogic;
 }
