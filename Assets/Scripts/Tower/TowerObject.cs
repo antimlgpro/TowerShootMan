@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,5 +14,11 @@ public class TowerObject : ScriptableObject
 	// TODO: Tier object for upgrades
 
 
-	public Tower towerLogic;
+	public enum TowerType
+	{
+		Projectile,
+		AreaOfEffect
+	}
+
+	public TowerType towerType;
 }

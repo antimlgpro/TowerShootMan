@@ -24,20 +24,26 @@ public class TowerProjectile : Tower
 	private Vector3 towerResetPosition;
 	private Vector3 gunResetPosition;
 
-	public override void Initialize()
+	Collider[] colliders;
+	Transform[] targets;
+
+
+	void Start()
 	{
 		towerResetPosition = transform.position;
 		gunResetPosition = gunPivot.transform.position;
+		colliders = new Collider[maxTargets];
+		targets = new Transform[maxTargets];
+		StartCoroutine(TowerLoop());
 	}
 
-		public override void ToggleTower()
+	public override void ToggleTower()
 	{
-		throw new System.NotImplementedException();
-	}
 
+	}
+	
 	// Not filtered
-	Transform[] GetTargetsInRange(Vector3 position, float range = 80f, int maxTargets = 25) {
-		Collider[] colliders = new Collider[maxTargets];
+	Transform[] GetTargetsInRange(Vector3 position, float range = 80f) {
 		int targets = Physics.OverlapSphereNonAlloc(position, range, colliders);
 
 		Transform[] targetArray = new Transform[targets];
@@ -91,10 +97,9 @@ public class TowerProjectile : Tower
 		projectile.GetComponent<Rigidbody>().AddForce(gunPivot.transform.forward * velocity, ForceMode.Impulse);
 	}
 
-
 	protected override IEnumerator TowerLoop() {
 		while (true) {
-			Transform[] targets = GetTargetsInRange(transform.position, towerObject.range, 25);
+			targets = FilterTargetsByTag(GetTargetsInRange(transform.position, towerObject.range), "Enemy");
 
 			if (targets.Length >= 1) {
 				ShootTarget(targets[0]);
