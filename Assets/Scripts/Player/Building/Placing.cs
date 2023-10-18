@@ -87,6 +87,10 @@ public class Placing : MonoBehaviour
 
 		buildMode = false;
 		ghostActive = false;
+
+
+		ghostObject.GetComponent<Tower>().ToggleTower();
+
 		ghostObject = null;
 	}	
 }

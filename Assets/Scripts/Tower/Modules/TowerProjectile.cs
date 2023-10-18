@@ -9,6 +9,7 @@ using UnityEngine.PlayerLoop;
 public class TowerProjectile : Tower
 {
 	[SerializeField] private TowerObject towerObject;
+	[SerializeField] private bool towerEnabled;
 
 	[SerializeField] private GameObject gunPivot;
 	[SerializeField] private GameObject projectilePoint;
@@ -30,6 +31,8 @@ public class TowerProjectile : Tower
 
 	void Start()
 	{
+		towerEnabled = false;
+
 		towerResetPosition = transform.position;
 		gunResetPosition = gunPivot.transform.position;
 		colliders = new Collider[maxTargets];
@@ -39,7 +42,7 @@ public class TowerProjectile : Tower
 
 	public override void ToggleTower()
 	{
-
+		towerEnabled = !towerEnabled;
 	}
 	
 	// Not filtered
@@ -99,10 +102,12 @@ public class TowerProjectile : Tower
 
 	protected override IEnumerator TowerLoop() {
 		while (true) {
-			targets = FilterTargetsByTag(GetTargetsInRange(transform.position, towerObject.range), "Enemy");
+			if (towerEnabled) {
+				targets = FilterTargetsByTag(GetTargetsInRange(transform.position, towerObject.range), "Enemy");
 
-			if (targets.Length >= 1) {
-				ShootTarget(targets[0]);
+				if (targets.Length >= 1) {
+					ShootTarget(targets[0]);
+				}
 			}
 
 			// Time in seconds between shots
