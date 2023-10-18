@@ -8,7 +8,7 @@ public class Placing : MonoBehaviour
 	private GameObject ghostObject;
 
 	private const int layerMask = 1 << 3;
-	private const int overlapLayerMask = ~(1 << 3); // All but layer 3
+	private const int overlapLayerMask = ~(1 << 3 | 1 << 7); // All but layer 3 and 7
 	private Collider[] colliders;
 
 	// Degrees

@@ -68,6 +68,12 @@ public class TowerProjectile : Tower
 		}).ToArray();
 	}
 
+	Transform[] ValidateTargets(Transform[] targets) {
+		return targets.Where(x => {
+			return !Physics.Linecast(projectilePoint.transform.position, x.position, 1 << 3);
+		}).ToArray();
+	}
+
 	public Vector3 LeadTarget(Vector3 initialProjectilePosition, Vector3 targetPosition, Vector3 targetVelocity, float projectileSpeed) {
 		float distance = Vector3.Distance(initialProjectilePosition, targetPosition);
 		float travelTime = distance / projectileSpeed;
@@ -103,7 +109,11 @@ public class TowerProjectile : Tower
 	protected override IEnumerator TowerLoop() {
 		while (true) {
 			if (towerEnabled) {
-				targets = FilterTargetsByTag(GetTargetsInRange(transform.position, towerObject.range), "Enemy");
+				targets = ValidateTargets(
+					FilterTargetsByTag(
+						GetTargetsInRange(transform.position, towerObject.range), 
+						"Enemy")
+					);
 
 				if (targets.Length >= 1) {
 					ShootTarget(targets[0]);
