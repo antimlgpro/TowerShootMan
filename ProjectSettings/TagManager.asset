@@ -6,11 +6,12 @@ TagManager:
   tags:
   - Enemy
   - Projectile
+  - Island
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Placeable
   - Water
   - UI
   - No collide

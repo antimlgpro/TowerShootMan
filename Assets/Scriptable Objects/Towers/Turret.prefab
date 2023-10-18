@@ -125,7 +125,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 3ea3283e958881d42ae9f81868dc6e3c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -223,7 +223,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 37547a7e22e97ae44a9507b99c0e1c36, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -268,6 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4995634310413427205}
   - component: {fileID: 2024367429254430132}
+  - component: {fileID: 8555399715920113746}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -312,3 +313,18 @@ MonoBehaviour:
   enemySpawner: {fileID: 0}
   noTargetCooldown: 1.5
   maxTargets: 25
+--- !u!114 &8555399715920113746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4995634310413427204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34d31c19ae52e2d4389de1d9a2fcf77f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerRenderer:
+  - {fileID: 4995634308685318286}
+  - {fileID: 4995634310327366036}
