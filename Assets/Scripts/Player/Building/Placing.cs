@@ -8,19 +8,27 @@ public class Placing : MonoBehaviour
 	private GameObject ghostObject;
 
 	private const int layerMask = 1 << 3;
+	private const int overlapLayerMask = ~(1 << 3); // All but layer 3
+	private Collider[] colliders;
+
+	// Degrees
+	[SerializeField] private float maxAngle = 45f;
+	[SerializeField] private float maxDistanceToAnotherTower = 30f;
+
+
+	[Header("Building checks")]
 
 	// True if currently building.
 	[SerializeField] private bool buildMode;
 	[SerializeField] private bool canPlace;
 	private bool ghostActive;
 
-	
-	// Degrees
-	[SerializeField] private float maxAngle = 45f;
-
     // Start is called before the first frame update
     void Start()
     {
+		// Magic number means max colliders checked. Should in theory never need more than this.
+		colliders = new Collider[25];
+
 		SpawnGhost(tower);
     }
 
@@ -68,14 +76,18 @@ public class Placing : MonoBehaviour
 	bool CanPlace(RaycastHit hit) {
 		bool validPlacement;
 		bool validAngle;
+		bool validDistance;
 
 		// Checks if angle is less then max allowed
 		float angle = Mathf.Acos(Vector3.Dot(Vector3.up, hit.normal) / Vector3.up.magnitude * hit.normal.magnitude) * Mathf.Rad2Deg;
 		validAngle = angle <= maxAngle;
 
+		// Checks if any objects are too close to ghost
+		int targets = Physics.OverlapSphereNonAlloc(hit.point, maxDistanceToAnotherTower, colliders, overlapLayerMask);
+		validDistance = targets == 1;
 		
 		// This will be "anded" with multiple placement checks in future.
-		validPlacement = validAngle;
+		validPlacement = validAngle && validDistance;
 		return validPlacement;
 	}
 
