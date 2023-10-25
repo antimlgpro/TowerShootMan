@@ -15,3 +15,6 @@ MonoBehaviour:
   damage: 70
   range: 80
   RPM: 322
+  cost: 0
+  sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  towerType: 0

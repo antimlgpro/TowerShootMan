@@ -10,6 +10,9 @@ public class TowerObject : ScriptableObject
 	public float range;
 	public float RPM;
 
+	public int cost;
+	public Sprite sprite;
+
 	// Upgrades
 	// TODO: Tier object for upgrades
 
