@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class PlayUIManager : UIManagerBase
 {
+	[SerializeField] private bool active;
+
+	[Header("References")]
 	[SerializeField] private Button playButton;
 	//[SerializeField] private Button fastForwardButton;
 
@@ -12,6 +15,10 @@ public class PlayUIManager : UIManagerBase
     public override bool LoadUIManager()
     {
 		playButton.onClick.AddListener(OnClickPlay);
+		
+		// Used to toggle button active state when a wave actually starts.
+		GameController.Instance.m_OnWaveStart.AddListener(OnStart);
+		GameController.Instance.m_OnWaveStop.AddListener(OnStop);
 
 		return true;
     }
@@ -20,15 +27,17 @@ public class PlayUIManager : UIManagerBase
 		GameController.Instance.m_OnWaveTrigger.Invoke();
 	}
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	void OnStart() {
+		active = false;
+		ToggleButton(active);
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	void OnStop() {
+		active = true;
+		ToggleButton(active);
+	}
+
+	void ToggleButton(bool value) {
+		playButton.interactable = value;
+	}
 }
