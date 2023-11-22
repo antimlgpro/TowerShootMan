@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class InfoUIManager : UIManagerBase
 {
@@ -15,6 +16,7 @@ public class InfoUIManager : UIManagerBase
 	[SerializeField] private TextMeshProUGUI waveText;
 	[SerializeField] private TextMeshProUGUI healthText;
 	[SerializeField] private TextMeshProUGUI moneyText;
+	[SerializeField] private Image buildBorder;
 
 
 	[Header("Default")]
@@ -25,6 +27,8 @@ public class InfoUIManager : UIManagerBase
 		UpdateWave(waveValue, waveMaxValue);
 		UpdateHealth(healthValue);
 		UpdateMoney(moneyValue);
+
+		GameController.Instance.m_ToggleBuildMode.AddListener(ToggleBuildBorder);
 
 		return true;
     }
@@ -47,5 +51,9 @@ public class InfoUIManager : UIManagerBase
 		moneyValue = value;
 
 		moneyText.text = string.Format("{0}{1}", currency, value);
+	}
+
+	public void ToggleBuildBorder(bool value) {
+		buildBorder.enabled = value;
 	}
 }

@@ -24,6 +24,8 @@ public class Placing : MonoBehaviour
 	[SerializeField] private bool validTowerSelection;
 	[SerializeField] private bool buildMode;
 	[SerializeField] private bool canPlace;
+	// True if mouse is on island. Used to prevent placing towers when clicking buttons in buildmode.
+	[SerializeField] private bool mouseOnIsland;
 	private bool ghostActive;
 
     // Start is called before the first frame update
@@ -35,11 +37,27 @@ public class Placing : MonoBehaviour
 		GameController.Instance.m_OnSelectBuildable.AddListener(OnSelectBuildable);
     }
 
+	void Update() {
+		if (Input.GetButtonDown("StartBuild")) {
+			ToggleBuildMode();
+		}
+
+		if (Input.GetButtonDown("Fire1")) {
+			Place();
+		}
+	}
+
 	void OnSelectBuildable(TowerObject _towerObject) {
 		// The tower was deselected or invalid
 		if (_towerObject == null) {
 			Debug.Log("Invalid tower selected. This might be bad.");
+
+			// If the player selects invalid object or deselects a tower we 
+			// turn off buildmode and propagate it to the gamecontroller.
 			validTowerSelection = false;
+			buildMode = false;
+			HideGhost();
+			GameController.Instance.m_ToggleBuildMode.Invoke(buildMode);
 			return;
 		}
 
@@ -52,25 +70,16 @@ public class Placing : MonoBehaviour
 		SpawnGhost(_towerObject.prefab);
 	}
 
-	void Update() {
-		if (Input.GetButtonDown("StartBuild")) {
-			ToggleBuildMode();
-		}
-
-		if (Input.GetButtonDown("Fire1")) {
-			Place();
-		}
-	}
-
 	void ToggleBuildMode() {
 		if (validTowerSelection == false) return;
 
 		buildMode = !buildMode;
+		GameController.Instance.m_ToggleBuildMode.Invoke(buildMode);
 
 		SpawnGhost(tower);
 		if (buildMode == false) {
 			// Hide ghostobject when not building
-			ghostObject.transform.position = new Vector3(0, 0, 0);
+			HideGhost();
 		}
 	}
 
@@ -97,19 +106,26 @@ public class Placing : MonoBehaviour
 
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast (ray, out RaycastHit hit, 500, layerMask)) {
-			// if (!hit.transform.CompareTag("Island")) return;
-
 			canPlace = CanPlace(hit);
+			mouseOnIsland = true;
 			ghostObject.GetComponent<ToggleError>().Error = !canPlace;
 
 			ghostObject.transform.position = hit.point;
-        }
+        } else {
+			mouseOnIsland = false;
+			HideGhost();
+		}
+	}
+
+	void HideGhost() {
+		ghostObject.transform.position = new Vector3(0, 0, 0);
 	}
 
 	bool CanPlace(RaycastHit hit) {
 		bool validPlacement;
 		bool validAngle;
 		bool validDistance;
+		bool validMouse;
 
 		// Checks if angle is less then max allowed
 		float angle = Mathf.Acos(Vector3.Dot(Vector3.up, hit.normal) / Vector3.up.magnitude * hit.normal.magnitude) * Mathf.Rad2Deg;
@@ -118,9 +134,12 @@ public class Placing : MonoBehaviour
 		// Checks if any objects are too close to ghost
 		int targets = Physics.OverlapSphereNonAlloc(hit.point, maxDistanceToAnotherTower, colliders, overlapLayerMask);
 		validDistance = targets == 1;
+
+		// Checks if mouse is in a valid position
+		validMouse = mouseOnIsland;
 		
 		// This will be "anded" with multiple placement checks in future.
-		validPlacement = validAngle && validDistance;
+		validPlacement = validAngle && validDistance && validMouse;
 		return validPlacement;
 	}
 
@@ -143,6 +162,7 @@ public class Placing : MonoBehaviour
 		ghostActive = false;
 
 		ghostObject.GetComponent<Tower>().ToggleTower();
+		ghostObject.name = "Placed Tower";
 
 		ghostObject = null;
 

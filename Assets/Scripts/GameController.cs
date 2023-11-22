@@ -24,26 +24,30 @@ public class GameController : MonoBehaviour
 
 
 	[Header("Runtime events")]
-	// Should this be a event class instead??
-	// int1 = current, int2 = max
+	// UI Updating
+		// Should this be a event class instead??
+		// int1 = current, int2 = max
 	[SerializeField] public UnityEvent<int, int> m_OnWaveUpdate;
 	[SerializeField] public UnityEvent<int> m_OnMoneyUpdate;
 	[SerializeField] public UnityEvent<int> m_OnHealthUpdate;
 
+	// Waves
 	[SerializeField] public UnityEvent m_OnWaveStart;
 	[SerializeField] public UnityEvent m_OnWaveStop;
 	[SerializeField] public UnityEvent m_OnWaveTrigger;
-
 	[SerializeField] public UnityEvent<EnemyObject> m_OnEnemyKilled;
 	[SerializeField] public UnityEvent<EnemyObject> m_OnEnemyEscaped;
 
 
+	// Game State
 	[SerializeField] public UnityEvent m_OnGameStart;
 	[SerializeField] public UnityEvent m_OnGamePause;
 
+	// Building
 	[SerializeField] public UnityEvent<TowerObject> m_OnSelectBuildable;
 	[SerializeField] public UnityEvent<int> m_OnPurchase;
 	[SerializeField] public UnityEvent<bool> m_PurchaseResult;
+	[SerializeField] public UnityEvent<bool> m_ToggleBuildMode;
 
 
 	// I really do not want to use a singelton here.
@@ -98,6 +102,7 @@ public class GameController : MonoBehaviour
 		m_OnSelectBuildable ??= new();
 		m_OnPurchase ??= new();
 		m_PurchaseResult ??= new();
+		m_ToggleBuildMode ??= new();
 	}
 
 	void PurchaseResult(bool result) {
