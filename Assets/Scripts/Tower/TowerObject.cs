@@ -24,4 +24,6 @@ public class TowerObject : ScriptableObject
 	}
 
 	public TowerType towerType;
+
+	public GameObject prefab;
 }

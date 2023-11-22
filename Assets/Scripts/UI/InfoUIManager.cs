@@ -13,11 +13,12 @@ public class InfoUIManager : UIManagerBase
 
 	[Header("References")]
 	[SerializeField] private TextMeshProUGUI waveText;
-	
-	// TODO: implement health and money.
-	//[SerializeField] private TextMeshProUGUI healthText;
-	//[SerializeField] private TextMeshProUGUI moneyText;
+	[SerializeField] private TextMeshProUGUI healthText;
+	[SerializeField] private TextMeshProUGUI moneyText;
 
+
+	[Header("Default")]
+	[SerializeField] private string currency;
 
     public override bool LoadUIManager()
     {
@@ -32,14 +33,19 @@ public class InfoUIManager : UIManagerBase
 		waveValue = value;
 		waveMaxValue = max;
 
-		waveText.text = string.Format("{0}/{1}", waveValue, waveMaxValue);
+		// waves are indexed from zero but is displayed as one indexed.
+		waveText.text = string.Format("{0}/{1}", waveValue + 1, waveMaxValue);
 	}
 
 	public void UpdateHealth(int value) {
 		healthValue = value;
+
+		healthText.text = value.ToString();
 	}
 
 	public void UpdateMoney(int value) {
 		moneyValue = value;
+
+		moneyText.text = string.Format("{0}{1}", currency, value);
 	}
 }

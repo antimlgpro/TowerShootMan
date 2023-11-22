@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TowerUIManager : UIManagerBase
 {
 	[SerializeField] private GameObject prefab;
 
 	[SerializeField] private List<TowerObject> towerObjects;
+	[SerializeField] private List<GameObject> towerElements;
+
+
+	public UnityEvent<GameObject> m_OnSelectTower;
 
     public override bool LoadUIManager()
     {
@@ -14,19 +19,28 @@ public class TowerUIManager : UIManagerBase
 
 		if (!CreateElements()) return false;
 
+		m_OnSelectTower ??= new();
+
+		m_OnSelectTower.AddListener(OnSelectBuildable);
+
         return true;
     }
 
-	bool CreateElements() {
-		try {
-			foreach (TowerObject towerObject in towerObjects) {
-				GameObject towerElementObject = Instantiate(prefab, Vector3.zero, Quaternion.identity);
-				towerElementObject.transform.parent = transform;
-				TowerElement element = towerElementObject.GetComponent<TowerElement>();
-				element.Initialize(towerObject);
+	void OnSelectBuildable(GameObject towerObject) {
+		foreach (GameObject tower in towerElements) {
+			if (tower == towerObject) {
+				tower.GetComponent<TowerElement>().ToggleSelection();
 			}
-		} catch {
-			return false;
+		}
+	}
+
+	bool CreateElements() {
+		foreach (TowerObject towerObject in towerObjects) {
+			GameObject towerElementObject = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+			towerElements.Add(towerElementObject);
+			towerElementObject.transform.parent = transform;
+			TowerElement element = towerElementObject.GetComponent<TowerElement>();
+			element.Initialize(towerObject, this);
 		}
 
 		return true;

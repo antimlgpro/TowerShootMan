@@ -10,10 +10,15 @@ public class TowerElement : MonoBehaviour
 	private int towerCost;
 	private Sprite towerSprite;
 
+	private TowerUIManager towerUIManager;
+	private bool selected;
+
 	[Header("References")]
 	// UI stuff
 	[SerializeField] private Image backgroundReference;
+	[SerializeField] private Image selectBorderReference;
 	[SerializeField] private TextMeshProUGUI costReference;
+	[SerializeField] private Button buttonReference;
 	
 
 	[Header("Default")]
@@ -22,18 +27,34 @@ public class TowerElement : MonoBehaviour
 	[SerializeField] private string currency;
 
 
-	public void Initialize(TowerObject _towerObject) {
+	public void Initialize(TowerObject _towerObject, TowerUIManager _towerUIManager) {
 		towerObject = _towerObject;
+		towerUIManager = _towerUIManager;
 		
 		towerCost = _towerObject.cost;
 		towerSprite = _towerObject.sprite;
 		UpdateReferences();
+
+		selected = false;
+
+		buttonReference.onClick.AddListener(Select);
 	}
 
-	void Start() {
-		towerCost = 0;
-		towerSprite = defaultSprite;
-		UpdateReferences();
+	void Select() {
+		towerUIManager.m_OnSelectTower.Invoke(gameObject);
+
+		if (selected) {
+			// Select this tower
+			GameController.Instance.m_OnSelectBuildable.Invoke(towerObject);
+		} else {
+			// Deselect
+			GameController.Instance.m_OnSelectBuildable.Invoke(null);
+		}
+	}
+
+	public void ToggleSelection() {
+		selected = !selected;
+		selectBorderReference.enabled = selected;
 	}
 
 	void UpdateReferences() {

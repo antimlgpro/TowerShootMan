@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour
 		m_Mover.Stop();
 		dead = true;
 		gameObject.SetActive(false);
-		m_Spawner.EnemyKilled.Invoke();
+		m_Spawner.OnEnemyKilled.Invoke(m_EnemyObject);
 	}
 
 

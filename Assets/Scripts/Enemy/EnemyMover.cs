@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyMover : MonoBehaviour
 {
+	private EnemyObject enemyObject;
+
 	private List<Transform> nodes;
 	private EnemySpawner m_Spawner;
 	int targetNodeIndex = 1;
@@ -12,9 +14,10 @@ public class EnemyMover : MonoBehaviour
 	bool isMoving = true;
 	public bool IsMoving => isMoving;
 
-	public void Initialize(EnemyObject enemyObject, EnemySpawner spawner)
+	public void Initialize(EnemyObject _enemyObject, EnemySpawner spawner)
 	{
-		speed = enemyObject.speed;
+		enemyObject = _enemyObject;
+		speed = _enemyObject.speed;
 		nodes = NodeManager.Instance.nodes;
 		m_Spawner = spawner;
 		isMoving = true;
@@ -48,7 +51,7 @@ public class EnemyMover : MonoBehaviour
 			// stop moving when we hit the last node
 			if (targetNodeIndex == nodes.Count) {
 				isMoving = false;
-				m_Spawner.EnemyFinished.Invoke();
+				m_Spawner.OnEnemyFinished.Invoke(enemyObject);
 			};
 		}
 	}

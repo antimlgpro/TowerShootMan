@@ -5,6 +5,7 @@ using System;
 
 public class LevelUIManager : MonoBehaviour
 {
+	[Serializable]
 	public class UILoadingException : Exception
 	{
 		public UILoadingException() { }

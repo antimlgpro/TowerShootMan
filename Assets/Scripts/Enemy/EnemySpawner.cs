@@ -10,8 +10,8 @@ public class EnemySpawner : MonoBehaviour
 
 
 	// Waves
-	public List<Wave> waves = new();
-	[SerializeField]private int currentWaveIndex = 0;
+	private List<Wave> waves;
+	[SerializeField] private int currentWaveIndex = 0;
 	private bool isWaveRunning = false;
 	private bool isPoolSpawned = false;
 
@@ -23,41 +23,63 @@ public class EnemySpawner : MonoBehaviour
 	// Events
 
 	// Wave Events
-	[HideInInspector] public UnityEvent WaveStarted;
-	[HideInInspector] public UnityEvent WaveStopped;
+	[HideInInspector] private UnityEvent OnWaveTrigger; // TODO: Implement starting waves with this trigger.
+	[HideInInspector] private UnityEvent OnWaveStart;
+	[HideInInspector] private UnityEvent OnWaveStop;
 	
 	// Enemy Events
-	[HideInInspector] public UnityEvent EnemyKilled;
-	[HideInInspector] public UnityEvent EnemyFinished; // Invoked when an enemy reaches end of level.
+	[HideInInspector] public UnityEvent<EnemyObject> OnEnemyKilled;
+	[HideInInspector] public UnityEvent<EnemyObject> OnEnemyFinished; // Invoked when an enemy reaches end of level.
 
+
+	[SerializeField] private bool DEBUG;
 
 	void Start()
 	{
 		nodes = NodeManager.Instance.nodes;
+		waves = GameController.Instance.waves;
 
 		ResetWave();
 		InitializeEvents();
+
+		GameController.Instance.m_OnWaveUpdate.Invoke(currentWaveIndex, waves.Count);
+	}
+
+	void TriggerWave() {
+		if (DEBUG) Debug.LogFormat("Spawning wave {0}", currentWaveIndex);
 
 		SpawnEnemyPool(waves[currentWaveIndex]);
 		StartWave();
 	}
 
-	void InitializeEvents() {
-		WaveStarted ??= new();
-		WaveStopped ??= new();
+	void IncrementWave() {
+		currentWaveIndex = (currentWaveIndex + 1) % waves.Count;
 
-		EnemyKilled ??= new();
-		EnemyFinished ??= new();
+		GameController.Instance.m_OnWaveUpdate.Invoke(currentWaveIndex, waves.Count);
 
-		EnemyKilled.AddListener(CountKilled);
-		EnemyFinished.AddListener(CountFinished);
+		if (currentWaveIndex == waves.Count) {
+			// We are finished.
+		}
 	}
 
-	void CountKilled() {
+	void InitializeEvents() {
+		OnWaveStart = GameController.Instance.m_OnWaveStart;
+		OnWaveStop = GameController.Instance.m_OnWaveStop;
+		OnWaveTrigger = GameController.Instance.m_OnWaveTrigger;
+
+		OnEnemyKilled = GameController.Instance.m_OnEnemyKilled;
+		OnEnemyFinished = GameController.Instance.m_OnEnemyEscaped;
+
+		OnEnemyKilled.AddListener(CountKilled);
+		OnEnemyFinished.AddListener(CountFinished);
+		OnWaveTrigger.AddListener(TriggerWave);
+	}
+
+	void CountKilled(EnemyObject _) {
 		enemiesKilled += 1;
 	}
 
-	void CountFinished() {
+	void CountFinished(EnemyObject _) {
 		enemiesFinished += 1;
 	}
 
@@ -109,11 +131,13 @@ public class EnemySpawner : MonoBehaviour
 		if (isWaveRunning == true) return;
 		if (isPoolSpawned == false) return;
 
+		GameController.Instance.m_OnWaveUpdate.Invoke(currentWaveIndex, waves.Count);
+
 		StartCoroutine(SpawnWave());
 
 		isWaveRunning = true;
 
-		WaveStarted.Invoke();
+		OnWaveStart.Invoke();
 	}
 
 	void StopWave()
@@ -124,13 +148,9 @@ public class EnemySpawner : MonoBehaviour
 		}
 
 		ResetWave();
-		WaveStopped.Invoke();
+		OnWaveStop.Invoke();
 
-		// Temporary
-
-		currentWaveIndex = (currentWaveIndex + 1) % waves.Count;
-		SpawnEnemyPool(waves[currentWaveIndex]);
-		StartWave();
+		IncrementWave();
 	}
 	void Update()
 	{

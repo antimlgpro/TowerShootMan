@@ -15,6 +15,12 @@ public class EnemyObject : ScriptableObject
 	public float speed = 1;
 
 
+	// Points
+	[Range(1, 100)]
+	public int moneyValue = 2;
+	[Range(1, 100)]
+	public int escapePenalty = 1;
+
 	// Visual
 	public GameObject enemyPrefab;
 	public Material enemyMaterial;
