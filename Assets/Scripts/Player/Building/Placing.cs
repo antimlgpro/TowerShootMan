@@ -66,14 +66,20 @@ public class Placing : MonoBehaviour
 
 		validTowerSelection = true;
 
-		ToggleBuildMode();
+		ToggleBuildMode(false);
 		SpawnGhost(_towerObject.prefab);
 	}
 
-	void ToggleBuildMode() {
+	// If toggle == false buildmode is set to true
+	void ToggleBuildMode(bool toggle = true) {
 		if (validTowerSelection == false) return;
 
-		buildMode = !buildMode;
+		if (toggle) {
+			buildMode = !buildMode;
+		} else {
+			buildMode = true;
+		}
+
 		GameController.Instance.m_ToggleBuildMode.Invoke(buildMode);
 
 		SpawnGhost(tower);

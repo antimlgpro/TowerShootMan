@@ -1213,7 +1213,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Shoot tower
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: de2aa2df2a3c90c49af31ed56f65918f, type: 2}
   m_sharedMaterial: {fileID: -2291320799102126669, guid: de2aa2df2a3c90c49af31ed56f65918f,
@@ -2471,7 +2471,8 @@ MonoBehaviour:
   prefab: {fileID: 989431389019236669, guid: c242fd1a0c4df424bb900395674e99a8, type: 3}
   towerObjects:
   - {fileID: 11400000, guid: d1a6898f378299d4b9799a9f9ad0fd59, type: 2}
-  towerElements: []
+  - {fileID: 11400000, guid: d1a6898f378299d4b9799a9f9ad0fd59, type: 2}
+  selectedTowerText: {fileID: 490677810}
   m_OnSelectTower:
     m_PersistentCalls:
       m_Calls: []

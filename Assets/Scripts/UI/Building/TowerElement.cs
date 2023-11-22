@@ -6,12 +6,12 @@ using TMPro;
 
 public class TowerElement : MonoBehaviour
 {
-	[SerializeField] private TowerObject towerObject;
+	public TowerObject towerObject;
 	private int towerCost;
 	private Sprite towerSprite;
 
 	private TowerUIManager towerUIManager;
-	private bool selected;
+	[SerializeField] private bool selected;
 
 	[Header("References")]
 	// UI stuff
@@ -52,8 +52,13 @@ public class TowerElement : MonoBehaviour
 		}
 	}
 
-	public void ToggleSelection() {
-		selected = !selected;
+	public void ToggleSelection(bool toggle = true) {
+		if (toggle) {
+			selected = !selected;
+		} else {
+			selected = false;
+		}
+
 		selectBorderReference.enabled = selected;
 	}
 
