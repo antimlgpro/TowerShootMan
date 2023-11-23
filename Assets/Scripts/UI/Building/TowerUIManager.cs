@@ -28,6 +28,8 @@ public class TowerUIManager : UIManagerBase
 		m_OnSelectTower ??= new();
 		m_OnSelectTower.AddListener(OnSelectBuildable);
 
+		GameController.Instance.m_ToggleBuildMode.AddListener(OnToggleBuildMode);
+
         return true;
     }
 
@@ -46,6 +48,13 @@ public class TowerUIManager : UIManagerBase
 			}
 
 			tower.GetComponent<TowerElement>().ToggleSelection(false);
+		}
+	}
+
+	void OnToggleBuildMode(bool value) {
+		// If buildmode is disabled we deselect all tower elements.
+		if (value == false) {
+			OnSelectBuildable(null);
 		}
 	}
 

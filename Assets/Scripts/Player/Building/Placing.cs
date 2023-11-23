@@ -24,6 +24,7 @@ public class Placing : MonoBehaviour
 	[SerializeField] private bool validTowerSelection;
 	[SerializeField] private bool buildMode;
 	[SerializeField] private bool canPlace;
+	[SerializeField] private bool ghostHidden;
 	// True if mouse is on island. Used to prevent placing towers when clicking buttons in buildmode.
 	[SerializeField] private bool mouseOnIsland;
 	private bool ghostActive;
@@ -103,6 +104,7 @@ public class Placing : MonoBehaviour
 		canPlace = false;
 
 		ghostActive = true;
+		ghostHidden = true;
 	}
 
 	void MoveGhost() {
@@ -117,6 +119,7 @@ public class Placing : MonoBehaviour
 			ghostObject.GetComponent<ToggleError>().Error = !canPlace;
 
 			ghostObject.transform.position = hit.point;
+			ghostHidden = false;
         } else {
 			mouseOnIsland = false;
 			HideGhost();
@@ -125,6 +128,7 @@ public class Placing : MonoBehaviour
 
 	void HideGhost() {
 		ghostObject.transform.position = new Vector3(0, 0, 0);
+		ghostHidden = true;
 	}
 
 	bool CanPlace(RaycastHit hit) {
@@ -156,6 +160,7 @@ public class Placing : MonoBehaviour
 		if (canPlace == false) return;
 		if (buildMode == false) return;
 		if (ghostActive == false) return;
+		if (ghostHidden == true) return;
 
 		// Could not purchase tower.
 		if (GameController.Instance.PurchaseTower(towerObject) == false) {
