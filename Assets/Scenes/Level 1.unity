@@ -916,6 +916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25a6abaa55f80c5499ee399ac5680b6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transparentMaterial: {fileID: 2100000, guid: f0b4e1d8edcab85488a87812b2ede330, type: 2}
   maxAngle: 45
   maxDistanceToAnotherTower: 30
   validTowerSelection: 0

@@ -9,6 +9,10 @@ public class Placing : MonoBehaviour
 	private GameObject tower;
 	private GameObject ghostObject;
 
+
+	private GameObject rangeGhostObject;
+	[SerializeField] private Material transparentMaterial;
+
 	private const int layerMask = 1 << 3;
 	private const int overlapLayerMask = ~(1 << 3 | 1 << 7); // All but layer 3 and 7
 	private Collider[] colliders;
@@ -28,6 +32,7 @@ public class Placing : MonoBehaviour
 	// True if mouse is on island. Used to prevent placing towers when clicking buttons in buildmode.
 	[SerializeField] private bool mouseOnIsland;
 	private bool ghostActive;
+	private bool newTowerSelected;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +69,7 @@ public class Placing : MonoBehaviour
 
 		towerObject = _towerObject;
 		tower = _towerObject.prefab;
+		newTowerSelected = true;
 
 		validTowerSelection = true;
 
@@ -98,13 +104,28 @@ public class Placing : MonoBehaviour
 	void SpawnGhost(GameObject prefab) {
 		if (tower == null) return;
 		if (validTowerSelection == false) return;
-		if (ghostActive) return;
+
+		// Allow respawning of ghosts when swapping tower.
+		if (newTowerSelected == false) {
+			if (ghostActive) return;
+		}
+
+		// Destroy the old ghosts if they exist.
+		if (ghostObject != null) Destroy(ghostObject);
+		if (rangeGhostObject != null) Destroy(rangeGhostObject); 
 
 		ghostObject = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+		
+		rangeGhostObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+		rangeGhostObject.transform.localScale = new Vector3(towerObject.range, towerObject.range, towerObject.range);
+		rangeGhostObject.GetComponent<MeshRenderer>().material = transparentMaterial;
+		Destroy(rangeGhostObject.GetComponent<SphereCollider>());
+
 		canPlace = false;
 
 		ghostActive = true;
 		ghostHidden = true;
+		newTowerSelected = false;
 	}
 
 	void MoveGhost() {
@@ -119,6 +140,8 @@ public class Placing : MonoBehaviour
 			ghostObject.GetComponent<ToggleError>().Error = !canPlace;
 
 			ghostObject.transform.position = hit.point;
+			rangeGhostObject.transform.position = ghostObject.transform.position;
+			rangeGhostObject.SetActive(true);
 			ghostHidden = false;
         } else {
 			mouseOnIsland = false;
@@ -127,7 +150,9 @@ public class Placing : MonoBehaviour
 	}
 
 	void HideGhost() {
-		ghostObject.transform.position = new Vector3(0, 0, 0);
+		ghostObject.transform.position = Vector3.zero;
+		rangeGhostObject.transform.position = Vector3.zero;
+		rangeGhostObject.SetActive(false);
 		ghostHidden = true;
 	}
 
@@ -176,6 +201,9 @@ public class Placing : MonoBehaviour
 		ghostObject.name = "Placed Tower";
 
 		ghostObject = null;
+		Destroy(rangeGhostObject);
+		rangeGhostObject = null;
+
 
 		// See todo above.
 		SpawnGhost(tower);
