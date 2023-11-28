@@ -3603,7 +3603,7 @@ GameObject:
   - component: {fileID: 1845081704}
   - component: {fileID: 1845081705}
   m_Layer: 0
-  m_Name: Particle System
+  m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4014,7 +4014,7 @@ MonoBehaviour:
   delay: 0.01
   resetDelay: 0.5
   speed: 60
-  particleSystem: {fileID: 1845081703}
+  trailObject: {fileID: 1845081703}
 --- !u!1 &2063527191
 GameObject:
   m_ObjectHideFlags: 0

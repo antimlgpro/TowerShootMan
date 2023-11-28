@@ -8,7 +8,7 @@ public class NodeVisualizer : MonoBehaviour
 	[SerializeField, Range(0f, 1f)] private float delay;
 	[SerializeField, Range(0f, 5f)] private float resetDelay;
 	[SerializeField, Range(0.1f, 100f)] private float speed;
-	[SerializeField] private GameObject particleSystem;
+	[SerializeField] private GameObject trailObject;
 
 	private List<Transform> nodes;
 
@@ -20,45 +20,57 @@ public class NodeVisualizer : MonoBehaviour
     {
         nodes = NodeManager.Instance.nodes;
 
-		particleSystem.SetActive(false);
+		trailObject.SetActive(false);
 		targetNodeIndex = 0;
-		particleSystem.transform.position = nodes[targetNodeIndex].position;
-		particleSystem.SetActive(true);
+		trailObject.transform.position = nodes[targetNodeIndex].position;
+		trailObject.SetActive(true);
+
+		GameController.Instance.m_OnWaveStart.AddListener(OnWaveStart);
+		GameController.Instance.m_OnWaveStop.AddListener(OnWaveStop);
 
 		StartCoroutine(ParticleLoop());
     }
 
+	void OnWaveStart() {
+		pause = true;
+	}
+
+	void OnWaveStop() {
+		pause = true;
+	}
+
 
 	IEnumerator ParticleLoop() {
 		while (true) {
+			// I do NOT want this nesting but its required AFAIK.
 			if (pause == true) {
 				yield return null;
+			} else {
+				float t = speed * Time.deltaTime;
+
+				trailObject.transform.position = Vector3.MoveTowards(
+					trailObject.transform.position,
+					nodes[targetNodeIndex].position,
+					t
+				);
+
+				var dist = Vector3.Distance(trailObject.transform.position, nodes[targetNodeIndex].position);
+				if (dist <= 0.5)
+				{
+					targetNodeIndex += 1;
+
+					// stop moving when we hit the last node
+					if (targetNodeIndex == nodes.Count) {
+						trailObject.SetActive(false);
+						yield return new WaitForSeconds(resetDelay - delay);
+						targetNodeIndex = 0;
+						trailObject.transform.position = nodes[targetNodeIndex].position;
+						trailObject.SetActive(true);
+					};
+				}
+
+				yield return new WaitForSeconds(delay);
 			}
-
-			float t = speed * Time.deltaTime;
-
-			particleSystem.transform.position = Vector3.MoveTowards(
-				particleSystem.transform.position,
-				nodes[targetNodeIndex].position,
-				t
-			);
-
-			var dist = Vector3.Distance(particleSystem.transform.position, nodes[targetNodeIndex].position);
-			if (dist <= 0.5)
-			{
-				targetNodeIndex += 1;
-
-				// stop moving when we hit the last node
-				if (targetNodeIndex == nodes.Count) {
-					particleSystem.SetActive(false);
-					yield return new WaitForSeconds(resetDelay - delay);
-					targetNodeIndex = 0;
-					particleSystem.transform.position = nodes[targetNodeIndex].position;
-					particleSystem.SetActive(true);
-				};
-			}
-
-			yield return new WaitForSeconds(delay);
 		}
 	}
 }
