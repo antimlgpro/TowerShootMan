@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2070519754}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Projectile point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7729736466506228146}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GunPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 4995634308685318287}
   - component: {fileID: 4995634308685318286}
   - component: {fileID: 4995634308685318281}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 4995634310327366038}
   - component: {fileID: 4995634310327366037}
   - component: {fileID: 4995634310327366036}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,8 +186,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4995634310327366033}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 1.96}
-  m_LocalScale: {x: 3.6, y: 0.2, z: 0.2}
+  m_LocalPosition: {x: 0, y: 0, z: 1.49}
+  m_LocalScale: {x: 1.57, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2070519754}
@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 4995634310413427205}
   - component: {fileID: 2024367429254430132}
   - component: {fileID: 8555399715920113746}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mini Gunner
   m_TagString: Untagged
   m_Icon: {fileID: 0}

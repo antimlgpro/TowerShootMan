@@ -95,7 +95,7 @@ public class TowerProjectile : Tower
 	void ShootTarget(Transform target) {
 		// Leading the target
 		Vector3 targetPosition = target.transform.position;
-		float velocity = 500f;
+		float velocity = 100f;
 		targetPosition = LeadTarget(projectilePoint.transform.position, targetPosition, target.GetComponent<Velocity>().velocity, velocity);
 
 		AimAtTarget(targetPosition);
@@ -116,6 +116,7 @@ public class TowerProjectile : Tower
 					);
 
 				if (targets.Length >= 1) {
+					Debug.DrawLine(projectilePoint.transform.position, targets[0].position, Color.red, 1);
 					ShootTarget(targets[0]);
 				}
 			}
