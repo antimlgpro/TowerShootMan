@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] private int waveDefault = 0;
 	[SerializeField] private int moneyDefault = 100;
 	[SerializeField] private int healthDefault = 150;
+	[SerializeField] private int waveMoney = 100;
 
 
 
@@ -81,6 +82,8 @@ public class GameController : MonoBehaviour
 		m_OnEnemyKilled.AddListener(EnemyKilled);
 		m_OnEnemyEscaped.AddListener(EnemyEscaped);
 		m_PurchaseResult.AddListener(PurchaseResult);
+		m_OnWaveUpdate.AddListener(OnWaveUpdate);
+		m_OnWaveStop.AddListener(OnWaveFinish);
     }
 
 	void InitializeEvents() {
@@ -103,6 +106,16 @@ public class GameController : MonoBehaviour
 		m_OnPurchase ??= new();
 		m_PurchaseResult ??= new();
 		m_ToggleBuildMode ??= new();
+	}
+
+	void OnWaveUpdate(int current, int max) {
+		currentWave = current;
+	}
+
+	void OnWaveFinish() {
+		int value = (int)Mathf.Floor(waveMoney + waveMoney * Mathf.Log10(4f * currentWave + 2f));
+
+		UpdateMoney(value + money);
 	}
 
 	void PurchaseResult(bool result) {

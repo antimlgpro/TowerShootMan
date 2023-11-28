@@ -918,7 +918,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transparentMaterial: {fileID: 2100000, guid: f0b4e1d8edcab85488a87812b2ede330, type: 2}
   maxAngle: 45
-  maxDistanceToAnotherTower: 30
+  maxDistanceToAnotherTower: 2
   validTowerSelection: 0
   buildMode: 0
   canPlace: 0
@@ -946,6 +946,7 @@ MonoBehaviour:
   waveDefault: 0
   moneyDefault: 130
   healthDefault: 150
+  waveMoney: 100
   m_OnWaveUpdate:
     m_PersistentCalls:
       m_Calls:
