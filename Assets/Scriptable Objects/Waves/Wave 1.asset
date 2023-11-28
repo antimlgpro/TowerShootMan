@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyContainers:
   - enemyObject: {fileID: 11400000, guid: 613c71f89c3cbd446a776e5f8f0d5c8d, type: 2}
-    amount: 32
+    amount: 10
     speedMultiplier: 1
+  timeBetweenEnemySpawn: 1

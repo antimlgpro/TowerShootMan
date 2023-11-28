@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 2024367429254430132}
   - component: {fileID: 8555399715920113746}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: Sniper
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -291,7 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6231112de08d14db75eece83fc507b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerObject: {fileID: 11400000, guid: d1a6898f378299d4b9799a9f9ad0fd59, type: 2}
+  towerObject: {fileID: 11400000, guid: d826a980866ec9343bbc873164a3bc44, type: 2}
   towerEnabled: 0
   gunPivot: {fileID: 2336889596326519090}
   projectilePoint: {fileID: 2070519753}

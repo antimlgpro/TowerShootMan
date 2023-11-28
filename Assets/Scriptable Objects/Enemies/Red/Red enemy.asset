@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Red enemy
   m_EditorClassIdentifier: 
   name: Red
-  baseHealth: 100
+  baseHealth: 20
   armorTier: 0
-  speed: 22
+  speed: 4.4
+  moneyValue: 2
+  escapePenalty: 1
   enemyPrefab: {fileID: 7214744477485525159, guid: 9a38a2d6ca8b654499128085e229e937,
     type: 3}
   enemyMaterial: {fileID: 2100000, guid: ae275bad7fffc044792e33a73a8272f2, type: 2}
