@@ -8,6 +8,8 @@ using UnityEngine.PlayerLoop;
 [CreateAssetMenu(menuName = "Tower Defense/Tower modules/Tower projectile")]
 public class TowerProjectile : Tower
 {
+	[SerializeField] private Animation placeAnimation;
+
 	[SerializeField] private TowerObject towerObject;
 	[SerializeField] private bool towerEnabled;
 
@@ -43,6 +45,7 @@ public class TowerProjectile : Tower
 	public override void ToggleTower()
 	{
 		towerEnabled = !towerEnabled;
+		placeAnimation.Play();
 	}
 	
 	// Not filtered

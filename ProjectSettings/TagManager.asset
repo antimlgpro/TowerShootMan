@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Projectile
   - Island
+  - Tower
+  - Ghost
   layers:
   - Default
   - TransparentFX
@@ -16,9 +18,9 @@ TagManager:
   - UI
   - No collide
   - Enemy
-  - 
-  - 
-  - 
+  - Tower
+  - Ghost
+  - No Postprocess
   - 
   - 
   - 

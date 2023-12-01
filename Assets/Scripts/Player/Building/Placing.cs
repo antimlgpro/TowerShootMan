@@ -13,7 +13,8 @@ public class Placing : MonoBehaviour
 	private GameObject rangeGhostObject;
 	[SerializeField] private Material transparentMaterial;
 
-	private const int layerMask = 1 << 3;
+	private const int layerMask = 1 << 8 | 1 << 3;
+	private const int intersectMask = 1 << 8;
 	private const int overlapLayerMask = ~(1 << 3 | 1 << 7); // All but layer 3 and 7
 	private Collider[] colliders;
 
@@ -115,11 +116,14 @@ public class Placing : MonoBehaviour
 		if (rangeGhostObject != null) Destroy(rangeGhostObject); 
 
 		ghostObject = Instantiate(prefab, Vector3.zero, Quaternion.identity);
-		
+		ghostObject.layer = 9; // Allow detection of ghosts. 
+
 		rangeGhostObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 		rangeGhostObject.transform.localScale = new Vector3(towerObject.range, towerObject.range, towerObject.range);
 		rangeGhostObject.GetComponent<MeshRenderer>().material = transparentMaterial;
+		rangeGhostObject.layer = 10; // No postprocess
 		Destroy(rangeGhostObject.GetComponent<SphereCollider>());
+		rangeGhostObject.SetActive(false);
 
 		canPlace = false;
 
@@ -135,10 +139,14 @@ public class Placing : MonoBehaviour
 
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast (ray, out RaycastHit hit, 500, layerMask)) {
+			if (Overlap(hit)) {
+				ghostObject.transform.position = Vector3.zero;
+				return;
+			}
 			canPlace = CanPlace(hit);
 			mouseOnIsland = true;
 			ghostObject.GetComponent<ToggleError>().Error = !canPlace;
-
+			
 			ghostObject.transform.position = hit.point;
 			rangeGhostObject.transform.position = ghostObject.transform.position;
 			rangeGhostObject.SetActive(true);
@@ -154,6 +162,11 @@ public class Placing : MonoBehaviour
 		rangeGhostObject.transform.position = Vector3.zero;
 		rangeGhostObject.SetActive(false);
 		ghostHidden = true;
+	}
+
+	bool Overlap(RaycastHit hit) {
+		int targets = Physics.OverlapSphereNonAlloc(hit.point, 0.01f , colliders, intersectMask);
+		return targets == 1;
 	}
 
 	bool CanPlace(RaycastHit hit) {
@@ -199,6 +212,7 @@ public class Placing : MonoBehaviour
 
 		ghostObject.GetComponent<Tower>().ToggleTower();
 		ghostObject.name = "Placed Tower";
+		ghostObject.layer = 8;
 
 		ghostObject = null;
 		Destroy(rangeGhostObject);

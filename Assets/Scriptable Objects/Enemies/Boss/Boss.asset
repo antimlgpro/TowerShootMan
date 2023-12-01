@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c48f121e1b5f84ab51f3b6bab0a5a6, type: 3}
+  m_Name: Boss
+  m_EditorClassIdentifier: 
+  name: Boss
+  baseHealth: 200
+  armorTier: 4
+  speed: 1
+  moneyValue: 100
+  escapePenalty: 100
+  enemyPrefab: {fileID: 7214744477485525159, guid: c145ecc2ebd842b49a4fd2dce8fa2b54,
+    type: 3}
+  enemyMaterial: {fileID: 2100000, guid: e6b640c5fb228734ab4f3c875c5476a4, type: 2}

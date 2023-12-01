@@ -10,13 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 307650a46e004484cafca8954b75c9e0, type: 3}
-  m_Name: Wave 2
+  m_Name: Wave 4
   m_EditorClassIdentifier: 
   enemyContainers:
-  - enemyObject: {fileID: 11400000, guid: 613c71f89c3cbd446a776e5f8f0d5c8d, type: 2}
-    amount: 12
-    speedMultiplier: 1.2
-  - enemyObject: {fileID: 11400000, guid: 68eff8c7db0f5a34db3cf3e20b5186f6, type: 2}
-    amount: 5
+  - enemyObject: {fileID: 11400000, guid: 76b4a630d59fe0d4782f95cc02693c9b, type: 2}
+    amount: 1
     speedMultiplier: 1
-  timeBetweenEnemySpawn: 0.5
+  - enemyObject: {fileID: 11400000, guid: 21cdb981e6c5edf4bb443adecf32220c, type: 2}
+    amount: 10
+    speedMultiplier: 2
+  - enemyObject: {fileID: 11400000, guid: 613c71f89c3cbd446a776e5f8f0d5c8d, type: 2}
+    amount: 30
+    speedMultiplier: 1
+  timeBetweenEnemySpawn: 0.25
