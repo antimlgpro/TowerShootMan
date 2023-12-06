@@ -35,10 +35,10 @@ RenderSettings:
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 0.081
+  m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.003105592, g: 0.044919536, b: 0.08693907, a: 0.081}
+  m_IndirectSpecularColor: {r: 0.019865558, g: 0.16538455, b: 0.5561259, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -97,7 +97,8 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: ff5f96a192ba064488e99c7b7a16bc58,
+    type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 6ec904b0339d51b4b9bebce02fbad36f,
     type: 2}
 --- !u!196 &4
@@ -775,8 +776,8 @@ GameObject:
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
-  - component: {fileID: 330585549}
   - component: {fileID: 330585550}
+  - component: {fileID: 330585551}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -823,7 +824,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1023
+    m_Bits: 511
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -842,7 +843,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 16.4, z: 47}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -850,7 +851,7 @@ Transform:
   - {fileID: 990063704}
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,30 +903,10 @@ MonoBehaviour:
   minDistance: 40
   maxDistance: 100
   rotationSpeed: 300
-  zoomSpeed: 5
+  zoomSpeed: 2
   minVerticalAngle: -30
   maxVerticalAngle: 60
   orbitAngles: {x: 26.330313, y: 208.80772}
---- !u!114 &330585549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330585543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25a6abaa55f80c5499ee399ac5680b6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transparentMaterial: {fileID: 2100000, guid: f0b4e1d8edcab85488a87812b2ede330, type: 2}
-  maxAngle: 45
-  maxDistanceToAnotherTower: 2
-  validTowerSelection: 0
-  buildMode: 0
-  canPlace: 0
-  ghostHidden: 0
-  mouseOnIsland: 0
 --- !u!114 &330585550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -940,10 +921,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentWave: 0
   waves:
-  - {fileID: 11400000, guid: b5fc4ff57b5d54048bac68b6200f5102, type: 2}
   - {fileID: 11400000, guid: 1baa33da6a7e4f94da72a3e478539962, type: 2}
   - {fileID: 11400000, guid: c376468d835a59f4ca4fc7c91ba578d9, type: 2}
   - {fileID: 11400000, guid: 0bb0c7ef461842546af49a07a1626cac, type: 2}
+  - {fileID: 11400000, guid: b5fc4ff57b5d54048bac68b6200f5102, type: 2}
   money: 0
   health: 0
   waveDefault: 0
@@ -1028,6 +1009,30 @@ MonoBehaviour:
   m_ToggleBuildMode:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &330585551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 589c0267f88d7c84c97c0ff1eb466afc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BuildMode: 0
+  TowerSO: {fileID: 11400000, guid: d1a6898f378299d4b9799a9f9ad0fd59, type: 2}
+  ghostMaterial: {fileID: 2100000, guid: f3bd1bf4497ff7e46abc3a08160f1a9a, type: 2}
+  buildOptions:
+    maxAngle: 30
+    noBuildRadius: 0.5
+    groundMask:
+      serializedVersion: 2
+      m_Bits: 8
+    overlapMask:
+      serializedVersion: 2
+      m_Bits: 2039
 --- !u!1 &341882909
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,7 +1112,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1.1
+  m_Intensity: 0.6
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2194,7 +2199,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 1536
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

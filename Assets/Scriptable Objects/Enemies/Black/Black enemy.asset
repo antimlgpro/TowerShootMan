@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30c48f121e1b5f84ab51f3b6bab0a5a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 88e42d7821e58164cae3a0c7349447b6, type: 3}
   m_Name: Black enemy
   m_EditorClassIdentifier: 
   name: Black
