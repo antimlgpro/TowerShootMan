@@ -1022,8 +1022,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BuildMode: 0
-  TowerSO: {fileID: 11400000, guid: d1a6898f378299d4b9799a9f9ad0fd59, type: 2}
   ghostMaterial: {fileID: 2100000, guid: f3bd1bf4497ff7e46abc3a08160f1a9a, type: 2}
+  f_MouseOnIsland: 0
   buildOptions:
     maxAngle: 30
     noBuildRadius: 0.5
