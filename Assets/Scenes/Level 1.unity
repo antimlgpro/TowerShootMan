@@ -900,6 +900,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraRef: {fileID: 330585545}
   focusObject: {fileID: 1095363773}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8
   minDistance: 25
   maxDistance: 100
   rotationSpeed: 300
