@@ -22,7 +22,7 @@ public class Placing2 : MonoBehaviour
 	private Vector3 HitPoint;
 	private Vector3 HitNormal;
 
-	[SerializeField] private TowerSO TowerSO;
+	private TowerSO TowerSO;
 
 	// GHOST
 	[Header("Ghost")]
@@ -32,15 +32,13 @@ public class Placing2 : MonoBehaviour
 
 
 	// FLAGS
-	private bool f_isTowerSelected {
+	private bool f_IsTowerSelected {
 		get {
 			return TowerSO != null;
 		}
 	}
 
-	private bool f_mouseOnIsland;
-
-
+	[SerializeField] private bool f_MouseOnIsland;
 
 	[SerializeField] private BuildOptions buildOptions;
 
@@ -76,6 +74,13 @@ public class Placing2 : MonoBehaviour
 
 	void FixedUpdate() {
 		Raycast();
+
+		if (!f_MouseOnIsland) {
+			HideGhost();
+		} else {
+			ShowGhost();
+		}
+
 		MoveGhost(HitPoint, HitNormal);
 	}
 
@@ -87,9 +92,9 @@ public class Placing2 : MonoBehaviour
 			HitPoint = hit.point;
 			HitNormal = hit.normal;
 
-			f_mouseOnIsland = true;
+			f_MouseOnIsland = true;
 		} else {
-			f_mouseOnIsland = false;
+			f_MouseOnIsland = false;
 		}
 	}
 
@@ -116,14 +121,14 @@ public class Placing2 : MonoBehaviour
 		GameController.Instance.m_ToggleBuildMode.Invoke(BuildMode);
 
 		if (BuildMode == false) {
-			HideGhost();
+			KillGhost();
 		} else {
-			ShowGhost();
+			Reset();
 		}
 	}
 
 	void SpawnGhost() {
-		if (f_isTowerSelected == false) return; // Only spawn ghost if gameobject is selected.
+		if (f_IsTowerSelected == false) return; // Only spawn ghost if gameobject is selected.
 		if (ghostObject != null) return;
 		if (radiusSphere != null) return;
 
@@ -142,8 +147,6 @@ public class Placing2 : MonoBehaviour
 		if (ghostObject == null) return;
 		if (radiusSphere == null) return;
 
-		Debug.Log("Hiding them ghosts");
-
 		ghostObject.SetActive(false);
 		radiusSphere.SetActive(false);
 	}
@@ -151,8 +154,6 @@ public class Placing2 : MonoBehaviour
 	void ShowGhost() {
 		if (ghostObject == null) return;
 		if (radiusSphere == null) return;
-
-		Debug.Log("Showing them ghosts");
 
 		ghostObject.SetActive(true);
 		radiusSphere.SetActive(true);
@@ -197,12 +198,12 @@ public class Placing2 : MonoBehaviour
 	}
 
 	bool CanPlace() {
-		if (f_isTowerSelected == false) return false;
+		if (f_IsTowerSelected == false) return false;
 
 		bool isValidPlacement = ValidPlacement(HitPoint, HitNormal);
 		bool canAfford = GameController.Instance.CanAfford(TowerSO.cost);
 
-		return isValidPlacement && canAfford;
+		return isValidPlacement && canAfford && f_MouseOnIsland;
 	}
 
 	bool Purchase(TowerSO towerSO) {

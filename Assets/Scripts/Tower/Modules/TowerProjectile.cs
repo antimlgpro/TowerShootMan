@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
-[CreateAssetMenu(menuName = "Tower Defense/Tower modules/Tower projectile")]
 public class TowerProjectile : Tower
 {
 	[SerializeField] private Animation placeAnimation;
 
 	[SerializeField] private TowerSO towerObject;
-	[SerializeField] private bool towerEnabled;
+	private bool towerEnabled = false;
+	[SerializeField] private bool TowerEnabled => towerEnabled;
 
 	[SerializeField] private GameObject gunPivot;
 	[SerializeField] private GameObject projectilePoint;
@@ -32,8 +31,6 @@ public class TowerProjectile : Tower
 
 	void Start()
 	{
-		//towerEnabled = true;
-
 		towerResetPosition = transform.position;
 		gunResetPosition = gunPivot.transform.position;
 		colliders = new Collider[maxTargets];
@@ -43,8 +40,7 @@ public class TowerProjectile : Tower
 
 	public override void ToggleTower(bool value)
 	{
-		towerEnabled = true;
-		Debug.Log("crazy " + towerEnabled);
+		towerEnabled = value;
 		placeAnimation.Play();
 	}
 	

@@ -4,19 +4,10 @@ using UnityEngine;
 
 public class RadiusSphere : MonoBehaviour
 {
-	public bool active;
 	[SerializeField] private MeshRenderer meshRenderer;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-		SetActive(false);
-    }
-
 	public void SetActive(bool value) {
-		active = value;
-
-		meshRenderer.enabled = active;
+		meshRenderer.enabled = value;
 	}
 	
 	// A sphere in unity has radius 0.5 so value needs to be doubled.
