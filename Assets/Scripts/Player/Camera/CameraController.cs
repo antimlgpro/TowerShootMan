@@ -51,7 +51,11 @@ public class CameraController : MonoBehaviour
 		var canRotate = (normalizedDistance >= 0 && scrollDelta > 0) || (normalizedDistance <= 1 && scrollDelta < 0);
 
 		if (canRotate) {
-			transform.position = Vector3.MoveTowards(transform.position, center, scrollDelta * zoomSpeed * Mathf.Lerp(1, 10, normalizedDistance));
+			transform.position = Vector3.MoveTowards(
+				transform.position, 
+				center, 
+				scrollDelta * (zoomSpeed * Mathf.Max(normalizedDistance, 0.05f))
+			);
 		}
 
 		distance = Vector3.Distance(transform.position, center);

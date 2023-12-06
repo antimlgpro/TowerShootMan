@@ -8,7 +8,7 @@ public class TowerUIManager : UIManagerBase
 {
 	[SerializeField] private GameObject prefab;
 
-	[SerializeField] private List<TowerObject> towerObjects;
+	[SerializeField] private List<TowerSO> towerObjects;
 	private List<GameObject> towerElements;
 	private string selectedTowerName;
 
@@ -59,7 +59,7 @@ public class TowerUIManager : UIManagerBase
 	}
 
 	bool CreateElements() {
-		foreach (TowerObject towerObject in towerObjects) {
+		foreach (TowerSO towerObject in towerObjects) {
 			GameObject towerElementObject = Instantiate(prefab, Vector3.zero, Quaternion.identity);
 			towerElements.Add(towerElementObject);
 			towerElementObject.transform.parent = transform;

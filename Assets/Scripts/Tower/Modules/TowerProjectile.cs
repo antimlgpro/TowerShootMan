@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 
 [CreateAssetMenu(menuName = "Tower Defense/Tower modules/Tower projectile")]
@@ -10,7 +9,7 @@ public class TowerProjectile : Tower
 {
 	[SerializeField] private Animation placeAnimation;
 
-	[SerializeField] private TowerObject towerObject;
+	[SerializeField] private TowerSO towerObject;
 	[SerializeField] private bool towerEnabled;
 
 	[SerializeField] private GameObject gunPivot;
@@ -33,7 +32,7 @@ public class TowerProjectile : Tower
 
 	void Start()
 	{
-		towerEnabled = false;
+		//towerEnabled = true;
 
 		towerResetPosition = transform.position;
 		gunResetPosition = gunPivot.transform.position;
@@ -42,9 +41,10 @@ public class TowerProjectile : Tower
 		StartCoroutine(TowerLoop());
 	}
 
-	public override void ToggleTower()
+	public override void ToggleTower(bool value)
 	{
-		towerEnabled = !towerEnabled;
+		towerEnabled = true;
+		Debug.Log("crazy " + towerEnabled);
 		placeAnimation.Play();
 	}
 	

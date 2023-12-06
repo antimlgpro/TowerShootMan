@@ -1,0 +1,226 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Linq;
+
+public class Placing2 : MonoBehaviour
+{
+	[System.Serializable]
+	public class BuildOptions {
+		[Range(0f, 360f)] public float maxAngle;
+		[Range(0f, 100f)] public float noBuildRadius;
+
+		public LayerMask groundMask;
+		public LayerMask overlapMask;
+	}
+
+	private const int allocatedColliders = 45;
+	private Collider[] colliders;
+
+	[Header("General")]
+	[SerializeField] private bool BuildMode;
+	private Vector3 HitPoint;
+	private Vector3 HitNormal;
+
+	[SerializeField] private TowerSO TowerSO;
+
+	// GHOST
+	[Header("Ghost")]
+	private GameObject ghostObject;
+	private RadiusSphere radiusSphere;
+	[SerializeField] private Material ghostMaterial;
+
+
+	// FLAGS
+	private bool f_isTowerSelected {
+		get {
+			return TowerSO != null;
+		}
+	}
+
+	private bool f_mouseOnIsland;
+
+
+
+	[SerializeField] private BuildOptions buildOptions;
+
+    void Start()
+    {
+		colliders = new Collider[allocatedColliders];
+
+		ghostObject = null;
+		radiusSphere = null;
+
+		GameController.Instance.m_OnSelectBuildable.AddListener(OnSelectBuildable);
+    }
+
+	void OnSelectBuildable(TowerSO towerSO) {
+		print(towerSO);
+
+		if (towerSO == null) SetBuildMode(false);
+
+		SelectTower(towerSO);
+	}
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetButtonDown("StartBuild")) {
+			ToggleBuildMode();
+		}
+
+		if (Input.GetButtonDown("Fire1")) {
+			Place();
+		}
+    }
+
+	void FixedUpdate() {
+		Raycast();
+		MoveGhost(HitPoint, HitNormal);
+	}
+
+	void Raycast() {
+		if (BuildMode == false) return;
+
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast (ray, out RaycastHit hit, 500, buildOptions.groundMask)) {
+			HitPoint = hit.point;
+			HitNormal = hit.normal;
+
+			f_mouseOnIsland = true;
+		} else {
+			f_mouseOnIsland = false;
+		}
+	}
+
+	void SelectTower(TowerSO towerSO) {
+		TowerSO = towerSO;
+
+		SetBuildMode(true);
+
+		Reset();
+	}
+
+	void Reset() {
+		KillGhost();
+		SpawnGhost();
+	}
+
+	void ToggleBuildMode() {
+		SetBuildMode(!BuildMode);
+	}
+
+	void SetBuildMode(bool value) {
+		BuildMode = value;
+
+		GameController.Instance.m_ToggleBuildMode.Invoke(BuildMode);
+
+		if (BuildMode == false) {
+			HideGhost();
+		} else {
+			ShowGhost();
+		}
+	}
+
+	void SpawnGhost() {
+		if (f_isTowerSelected == false) return; // Only spawn ghost if gameobject is selected.
+		if (ghostObject != null) return;
+		if (radiusSphere != null) return;
+
+		ghostObject = Instantiate(TowerSO.prefab, HitPoint, Quaternion.identity);
+		ghostObject.layer = LayerMask.NameToLayer("Ghost");
+
+		radiusSphere = ghostObject.GetComponentInChildren<RadiusSphere>();
+		radiusSphere.SetActive(true);
+		radiusSphere.SetRadius(TowerSO.range);
+
+		ghostObject.GetComponent<SetMaterialInChildren>().SetMaterial(new Material(ghostMaterial));
+		ghostObject.GetComponent<ToggleError>().Error = false;
+	}
+
+	void HideGhost() {
+		if (ghostObject == null) return;
+		if (radiusSphere == null) return;
+
+		Debug.Log("Hiding them ghosts");
+
+		ghostObject.SetActive(false);
+		radiusSphere.SetActive(false);
+	}
+
+	void ShowGhost() {
+		if (ghostObject == null) return;
+		if (radiusSphere == null) return;
+
+		Debug.Log("Showing them ghosts");
+
+		ghostObject.SetActive(true);
+		radiusSphere.SetActive(true);
+	}
+
+	void KillGhost() {
+		if (ghostObject == null) return;
+		if (radiusSphere == null) return;
+
+		Destroy(ghostObject);
+
+		ghostObject = null;
+		radiusSphere = null;
+	}
+
+
+	void MoveGhost(Vector3 point, Vector3 normal) {
+		if (ghostObject == null) return;
+		if (radiusSphere == null) return;
+		if (BuildMode == false) ghostObject.transform.position = Vector3.zero;
+
+		bool canPlace = ValidPlacement(point, normal);
+
+		ghostObject.GetComponent<ToggleError>().Error = !canPlace;
+			
+		ghostObject.transform.position = point;
+	}
+
+	bool ValidPlacement(Vector3 point, Vector3 normal) {
+		bool validAngle = false;
+		bool validDistance = false;
+
+		// Checks if angle is less then max allowed
+		float angle = Mathf.Acos(Vector3.Dot(Vector3.up, normal) / Vector3.up.magnitude * normal.magnitude) * Mathf.Rad2Deg;
+		validAngle = angle <= buildOptions.maxAngle;
+
+		// Checks if any objects are too close to ghost
+		int targets = Physics.OverlapSphereNonAlloc(point, buildOptions.noBuildRadius, colliders, buildOptions.overlapMask);
+		validDistance = targets == 1;
+
+		return validAngle && validDistance;
+	}
+
+	bool CanPlace() {
+		if (f_isTowerSelected == false) return false;
+
+		bool isValidPlacement = ValidPlacement(HitPoint, HitNormal);
+		bool canAfford = GameController.Instance.CanAfford(TowerSO.cost);
+
+		return isValidPlacement && canAfford;
+	}
+
+	bool Purchase(TowerSO towerSO) {
+		return GameController.Instance.PurchaseTower(towerSO);
+	}
+
+	void Place() {
+		if (BuildMode == false) return;
+
+		bool canPlace = CanPlace();
+		if (canPlace == false) return;
+		if (Purchase(TowerSO) == false) return;
+
+		GameObject spawnedTower = Instantiate(TowerSO.prefab, HitPoint, Quaternion.identity);
+		spawnedTower.GetComponent<Tower>().ToggleTower(true);
+		spawnedTower.name = string.Format("Spawned {0}", TowerSO.name);
+		spawnedTower.layer = LayerMask.NameToLayer("Tower");
+
+		spawnedTower.GetComponentInChildren<RadiusSphere>().SetRadius(TowerSO.range);
+	}
+}

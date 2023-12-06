@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Placing : MonoBehaviour
 {
-	private TowerObject towerObject;
+	private TowerSO towerObject;
 
 	private GameObject tower;
 	private GameObject ghostObject;
@@ -54,7 +54,7 @@ public class Placing : MonoBehaviour
 		}
 	}
 
-	void OnSelectBuildable(TowerObject _towerObject) {
+	void OnSelectBuildable(TowerSO _towerObject) {
 		// The tower was deselected or invalid
 		if (_towerObject == null) {
 			Debug.Log("Invalid tower selected. This might be bad.");
@@ -119,7 +119,7 @@ public class Placing : MonoBehaviour
 		ghostObject.layer = 9; // Allow detection of ghosts. 
 
 		rangeGhostObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-		rangeGhostObject.transform.localScale = new Vector3(towerObject.range, towerObject.range, towerObject.range);
+		rangeGhostObject.transform.localScale = 2f * new Vector3(towerObject.range, towerObject.range, towerObject.range);
 		rangeGhostObject.GetComponent<MeshRenderer>().material = transparentMaterial;
 		rangeGhostObject.layer = 10; // No postprocess
 		Destroy(rangeGhostObject.GetComponent<SphereCollider>());
@@ -210,7 +210,7 @@ public class Placing : MonoBehaviour
 		//buildMode = false;
 		ghostActive = false;
 
-		ghostObject.GetComponent<Tower>().ToggleTower();
+		ghostObject.GetComponent<Tower>().ToggleTower(true);
 		ghostObject.name = "Placed Tower";
 		ghostObject.layer = 8;
 

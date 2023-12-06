@@ -28,8 +28,8 @@ public class EnemySpawner : MonoBehaviour
 	[HideInInspector] private UnityEvent OnWaveStop;
 	
 	// Enemy Events
-	[HideInInspector] public UnityEvent<EnemyObject> OnEnemyKilled;
-	[HideInInspector] public UnityEvent<EnemyObject> OnEnemyFinished; // Invoked when an enemy reaches end of level.
+	[HideInInspector] public UnityEvent<EnemySO> OnEnemyKilled;
+	[HideInInspector] public UnityEvent<EnemySO> OnEnemyFinished; // Invoked when an enemy reaches end of level.
 
 
 	[SerializeField] private bool DEBUG;
@@ -75,11 +75,11 @@ public class EnemySpawner : MonoBehaviour
 		OnWaveTrigger.AddListener(TriggerWave);
 	}
 
-	void CountKilled(EnemyObject _) {
+	void CountKilled(EnemySO _) {
 		enemiesKilled += 1;
 	}
 
-	void CountFinished(EnemyObject _) {
+	void CountFinished(EnemySO _) {
 		enemiesFinished += 1;
 	}
 
@@ -97,7 +97,7 @@ public class EnemySpawner : MonoBehaviour
 
 		foreach (var containers in wave.enemyContainers)
 		{
-			EnemyObject enemyObject = containers.enemyObject;
+			EnemySO enemyObject = containers.enemyObject;
 			var amount = containers.amount;
 
 			for (int i = 0; i < amount; i++)

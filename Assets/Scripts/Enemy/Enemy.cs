@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
 	public bool Dead => dead;
 
 	public EnemyMover m_Mover;
-	public EnemyObject m_EnemyObject;
+	public EnemySO m_EnemyObject;
 	public EnemySpawner m_Spawner;
 
 	[SerializeField]

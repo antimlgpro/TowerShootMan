@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Tower Defense/New enemy")]
-public class EnemyObject : ScriptableObject
+public class EnemySO : ScriptableObject
 {
 	public new string name;
 	[Range(1f, 500f)]

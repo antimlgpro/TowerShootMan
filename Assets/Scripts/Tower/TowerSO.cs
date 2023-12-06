@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Tower Defense/New Tower")]
-public class TowerObject : ScriptableObject
+public class TowerSO : ScriptableObject
 {
 	public float damage;
 	public float range;

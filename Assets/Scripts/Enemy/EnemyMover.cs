@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMover : MonoBehaviour
 {
-	private EnemyObject enemyObject;
+	private EnemySO enemyObject;
 
 	private List<Transform> nodes;
 	private EnemySpawner m_Spawner;
@@ -14,7 +14,7 @@ public class EnemyMover : MonoBehaviour
 	bool isMoving = true;
 	public bool IsMoving => isMoving;
 
-	public void Initialize(EnemyObject _enemyObject, EnemySpawner spawner)
+	public void Initialize(EnemySO _enemyObject, EnemySpawner spawner)
 	{
 		enemyObject = _enemyObject;
 		speed = _enemyObject.speed;

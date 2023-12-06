@@ -8,7 +8,7 @@ public class Wave : ScriptableObject
 	[System.Serializable]
 	public class EnemyContainer
 	{
-		public EnemyObject enemyObject;
+		public EnemySO enemyObject;
 
 		[Range(1, 500)]
 		public int amount;

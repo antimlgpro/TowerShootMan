@@ -6,7 +6,7 @@ using TMPro;
 
 public class TowerElement : MonoBehaviour
 {
-	public TowerObject towerObject;
+	public TowerSO towerObject;
 	private int towerCost;
 	private Sprite towerSprite;
 
@@ -27,7 +27,7 @@ public class TowerElement : MonoBehaviour
 	[SerializeField] private string currency;
 
 
-	public void Initialize(TowerObject _towerObject, TowerUIManager _towerUIManager) {
+	public void Initialize(TowerSO _towerObject, TowerUIManager _towerUIManager) {
 		towerObject = _towerObject;
 		towerUIManager = _towerUIManager;
 		
