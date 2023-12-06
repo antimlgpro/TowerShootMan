@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
 {
 	[SerializeField] private Camera cameraRef;
 	[SerializeField] private Transform focusObject;
+	[SerializeField] private LayerMask layerMask;
 	private Vector3 center;
 
 
@@ -44,6 +45,7 @@ public class CameraController : MonoBehaviour
 			rotateCamera = false;
 		}
 
+
 		distance = Vector3.Distance(transform.position, center);
 		float scrollDelta = Input.mouseScrollDelta.y;
 		float normalizedDistance = (distance - minDistance) / (maxDistance - minDistance);
@@ -58,7 +60,9 @@ public class CameraController : MonoBehaviour
 			);
 		}
 
-		distance = Vector3.Distance(transform.position, center);
+
+		float _distance = CollideWithIsland() + 2f;
+		distance = Mathf.Max(Vector3.Distance(transform.position, center), _distance);
 
 		Quaternion lookRotation;
 		if (rotateCamera) {
@@ -102,5 +106,12 @@ public class CameraController : MonoBehaviour
 		else if (orbitAngles.y >= 360f) {
 			orbitAngles.y -= 360f;
 		}
+	}
+
+	float CollideWithIsland() {
+		Physics.Raycast(transform.position - transform.forward * 10f, transform.forward, out RaycastHit hit, 14f, layerMask);
+		Debug.DrawLine(transform.position, hit.point, Color.red, 0.1f);
+
+		return Vector3.Distance(hit.point, center);
 	}
 }
