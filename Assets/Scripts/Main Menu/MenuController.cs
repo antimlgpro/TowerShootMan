@@ -18,6 +18,10 @@ public class MenuController : MonoBehaviour
 	public bool isCameraFlipped;
 
 
+	// Level selection
+	public UnityEvent<bool> OnLevelSwap;
+
+
 	// Singelton pattern stolen from https://gamedevbeginner.com/singletons-in-unity-the-right-way/
 	public static MenuController Instance { get; private set; }
 	private void Awake()
@@ -38,6 +42,7 @@ public class MenuController : MonoBehaviour
     	OnClickPlay ??= new();
 		OnClickSettings ??= new();
 		OnCameraFlip ??= new();
+		OnLevelSwap ??= new();
 
 		ToggleMainMenu ??= new();
 		ToggleLevelSelection ??= new();
