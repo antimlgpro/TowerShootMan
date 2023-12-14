@@ -23,7 +23,7 @@ public class EnemySpawner : MonoBehaviour
 	// Events
 
 	// Wave Events
-	[HideInInspector] private UnityEvent OnWaveTrigger; // TODO: Implement starting waves with this trigger.
+	[HideInInspector] private UnityEvent OnWaveTrigger;
 	[HideInInspector] private UnityEvent OnWaveStart;
 	[HideInInspector] private UnityEvent OnWaveStop;
 	
