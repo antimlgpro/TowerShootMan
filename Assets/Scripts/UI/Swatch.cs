@@ -29,8 +29,9 @@ public class Swatch : MonoBehaviour
     void Awake()
     {
 		circleDefaultPosition = new Vector2(0, 0);
-		circleEnabledPosition = new Vector2(swatchTransform.rect.width, 0);
+		circleEnabledPosition = new Vector2(swatchTransform.rect.width - circle.rectTransform.rect.width, 0);
 		titleText.text = text;
+		fill.enabled = true;
     }
 
 	void Start() {		
@@ -48,21 +49,21 @@ public class Swatch : MonoBehaviour
 		if (isAnimating) return;
 		elapsedTime = 0f;
 		if (isEnabled) {
-			StartCoroutine(MoveCircle(circleDefaultPosition, circleEnabledPosition));
+			StartCoroutine(MoveCircle(circleDefaultPosition, circleEnabledPosition, new Vector2(0f, 0f), new Vector2(swatchTransform.rect.width, 0f)));
 		} else {
-			StartCoroutine(MoveCircle(circleEnabledPosition, circleDefaultPosition));
+			StartCoroutine(MoveCircle(circleEnabledPosition, circleDefaultPosition, new Vector2(swatchTransform.rect.width, 0f), new Vector2(0f, 0f)));
 		}
 	}
 
-	IEnumerator MoveCircle(Vector2 origin, Vector2 target) {
+	IEnumerator MoveCircle(Vector2 origin, Vector2 target, Vector2 widthOrigin, Vector2 widthTarget) {
 		isAnimating = true;
 		while (elapsedTime < timeToMove) {
 			circle.rectTransform.anchoredPosition = Vector2.Lerp(origin, target, elapsedTime / timeToMove);
+			fill.rectTransform.sizeDelta = Vector2.Lerp(widthOrigin, widthTarget, elapsedTime / timeToMove);
 			elapsedTime += Time.deltaTime;
       		yield return new WaitForEndOfFrame();
 		}
 
-		fill.enabled = isEnabled;
 		isAnimating = false;
 	}
 }
