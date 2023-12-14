@@ -13,7 +13,7 @@ public class MenuUIManager : UIManagerBase
 		playButton.onClick.AddListener(PlayButtonProxy);
 		settingsButton.onClick.AddListener(SettingsButtonProxy);
 
-		MenuController.Instance.ToggleMainMenu.AddListener(Toggle);
+		MenuController.Instance.m_ToggleMainMenu.AddListener(Toggle);
 
 		Toggle(isVisible);
 
@@ -23,10 +23,10 @@ public class MenuUIManager : UIManagerBase
 
 
 	void PlayButtonProxy() {
-		MenuController.Instance.OnClickPlay.Invoke();
+		MenuController.Instance.m_OnClickPlay.Invoke();
 	}
 
 	void SettingsButtonProxy() {
-		MenuController.Instance.OnClickSettings.Invoke();
+		MenuController.Instance.m_OnClickSettings.Invoke();
 	}
 }

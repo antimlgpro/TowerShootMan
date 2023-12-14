@@ -8,11 +8,15 @@ public class LevelSelectionUIManager : UIManagerBase
 	[SerializeField] private Button leftButton;
 	[SerializeField] private Button rightButton;
 
+	[SerializeField] private Button selectButton;
+
     public override bool LoadUIManager()
     {
-		MenuController.Instance.ToggleLevelSelection.AddListener(Toggle);
-		leftButton.onClick.AddListener(() => MenuController.Instance.OnLevelSwap.Invoke(true));
-		rightButton.onClick.AddListener(() => MenuController.Instance.OnLevelSwap.Invoke(false));
+		MenuController.Instance.m_ToggleLevelSelection.AddListener(Toggle);
+		leftButton.onClick.AddListener(() => MenuController.Instance.m_OnLevelSwap.Invoke(true));
+		rightButton.onClick.AddListener(() => MenuController.Instance.m_OnLevelSwap.Invoke(false));
+
+		selectButton.onClick.AddListener(() => MenuController.Instance.m_OnClickSelectLevel.Invoke());
 
 		Toggle(isVisible);
         return true;

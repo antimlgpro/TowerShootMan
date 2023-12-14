@@ -2,24 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
 	// Names are selfexplanitory
-	public UnityEvent<bool> ToggleMainMenu;
-	public UnityEvent<bool> ToggleLevelSelection;
+	[HideInInspector] public UnityEvent<bool> m_ToggleLevelSelection;
+	[HideInInspector] public UnityEvent<bool> m_ToggleMainMenu;
 
 
-	public UnityEvent OnClickPlay;
-	public UnityEvent OnClickSettings;
+	[HideInInspector] public UnityEvent m_OnClickPlay;
+	[HideInInspector] public UnityEvent m_OnClickSettings;
 
 	// Invoked when camera started flipping.
-	public UnityEvent OnCameraFlip;
-	public bool isCameraFlipped;
+	[HideInInspector] public UnityEvent m_OnCameraFlip;
+	[HideInInspector] public bool m_isCameraFlipped;
 
 
 	// Level selection
-	public UnityEvent<bool> OnLevelSwap;
+	[HideInInspector] public UnityEvent<bool> m_OnLevelSwap;
+	[HideInInspector] public UnityEvent m_OnClickSelectLevel;
+	[HideInInspector] public UnityEvent<string> m_OnLevelSelect;
+
+	[Range(0f, 100f)] public float artificialLoadingDelay;
 
 
 	// Singelton pattern stolen from https://gamedevbeginner.com/singletons-in-unity-the-right-way/
@@ -39,22 +44,25 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
-    	OnClickPlay ??= new();
-		OnClickSettings ??= new();
-		OnCameraFlip ??= new();
-		OnLevelSwap ??= new();
+    	m_OnClickPlay ??= new();
+		m_OnClickSettings ??= new();
+		m_OnCameraFlip ??= new();
 
-		ToggleMainMenu ??= new();
-		ToggleLevelSelection ??= new();
+		m_ToggleMainMenu ??= new();
+		m_ToggleLevelSelection ??= new();
 
+		m_OnLevelSwap ??= new();
+		m_OnClickSelectLevel ??= new();
+		m_OnLevelSelect ??= new();
 
-		OnCameraFlip.AddListener(CameraFlip);
+		m_OnCameraFlip.AddListener(CameraFlip);
+		m_OnLevelSelect.AddListener(LoadLevel);
     }
 
 	void CameraFlip() {
-		isCameraFlipped = !isCameraFlipped;
+		m_isCameraFlipped = !m_isCameraFlipped;
 
-		if (isCameraFlipped == true) {
+		if (m_isCameraFlipped == true) {
 			ToggleMenu(false);
 		} else {
 			ToggleMenu(true);
@@ -62,7 +70,27 @@ public class MenuController : MonoBehaviour
 	}
 
 	void ToggleMenu(bool value) {
-		ToggleMainMenu.Invoke(value);
-		ToggleLevelSelection.Invoke(!value);
+		m_ToggleMainMenu.Invoke(value);
+		m_ToggleLevelSelection.Invoke(!value);
+	}
+
+	void LoadLevel(string sceneName) {
+		LoadingScreen.Instance.m_OnLoadLevel.Invoke();
+		StartCoroutine(LoadLevelAsync(sceneName));
+	}
+
+	IEnumerator LoadLevelAsync(string sceneToLoad) {
+		yield return new WaitForSeconds(artificialLoadingDelay);
+
+		AsyncOperation operation = SceneManager.LoadSceneAsync(sceneToLoad);
+
+		operation.completed += (_) => {
+			LoadingScreen.Instance.m_OnFadeLoadingScreen.Invoke();
+		};
+
+		while (!operation.isDone)
+        {
+            yield return null;
+        }
 	}
 }

@@ -48,7 +48,8 @@ public class LevelSelection : MonoBehaviour
 			spawnedLevels.Add(instance);
 		}
 
-		MenuController.Instance.OnLevelSwap.AddListener(SwapLevel);
+		MenuController.Instance.m_OnLevelSwap.AddListener(SwapLevel);
+		MenuController.Instance.m_OnClickSelectLevel.AddListener(SelectLevelButton);
     }
 
 	void SwapLevel(bool value) {
@@ -58,6 +59,10 @@ public class LevelSelection : MonoBehaviour
 		} else {
 			SelectLevel(Mathf.Max(0, currentSelectedIndex - 1));
 		}
+	}
+
+	void SelectLevelButton() {
+		MenuController.Instance.m_OnLevelSelect.Invoke(scenes[currentSelectedIndex]);
 	}
 
 	void SelectLevel(int index) {
