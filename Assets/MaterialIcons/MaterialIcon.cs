@@ -7,6 +7,8 @@ namespace Google.MaterialDesign.Icons
 
 public class MaterialIcon : Text
 {
+	[SerializeField] private bool _maskable = false;
+
 	public string iconUnicode
 	{
 		get { return System.Convert.ToString(char.ConvertToUtf32(base.text, 0), 16); }
@@ -67,6 +69,7 @@ public class MaterialIcon : Text
 		base.font = null;
 		base.color = new Color(0.196f, 0.196f, 0.196f, 1.000f);
 		base.material = null;
+		base.maskable = _maskable;
 		base.alignment = TextAnchor.MiddleCenter;
 		base.supportRichText = false;
 		base.horizontalOverflow = HorizontalWrapMode.Overflow;
