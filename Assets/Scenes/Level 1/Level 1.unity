@@ -1285,8 +1285,8 @@ MonoBehaviour:
   moneyDefault: 1300000
   healthDefault: 150
   waveMoney: 100
-  mainMenuScene: 
-  artificialLoadingDelay: 0
+  mainMenuScene: Main Menu
+  artificialLoadingDelay: 1.2
   m_OnWaveUpdate:
     m_PersistentCalls:
       m_Calls:
