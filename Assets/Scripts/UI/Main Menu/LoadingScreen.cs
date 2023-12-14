@@ -39,8 +39,13 @@ public class LoadingScreen : MonoBehaviour
 		m_OnLoadLevel.AddListener(ActivateLoading);
 
 
-		Toggle(isVisible);
+		Reset();
     }
+
+	void Reset() {
+		Toggle(false);
+		canvasGroup.alpha = 1;
+	}
 
 	// Singelton pattern stolen from https://gamedevbeginner.com/singletons-in-unity-the-right-way/
 	public static LoadingScreen Instance { get; private set; }
@@ -99,8 +104,7 @@ public class LoadingScreen : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
-        canvasGroup.alpha = targetValue;
 
-		Toggle(false);
+		Reset();
     }
 }

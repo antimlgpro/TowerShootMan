@@ -13,13 +13,10 @@ MonoBehaviour:
   m_Name: Wave 4
   m_EditorClassIdentifier: 
   enemyContainers:
-  - enemyObject: {fileID: 11400000, guid: 76b4a630d59fe0d4782f95cc02693c9b, type: 2}
-    amount: 1
-    speedMultiplier: 1
-  - enemyObject: {fileID: 11400000, guid: 21cdb981e6c5edf4bb443adecf32220c, type: 2}
-    amount: 10
-    speedMultiplier: 2
   - enemyObject: {fileID: 11400000, guid: 613c71f89c3cbd446a776e5f8f0d5c8d, type: 2}
-    amount: 30
+    amount: 35
+    speedMultiplier: 1
+  - enemyObject: {fileID: 11400000, guid: ec095ab9b9c40bd418b6041b808e6849, type: 2}
+    amount: 18
     speedMultiplier: 1
   timeBetweenEnemySpawn: 0.25

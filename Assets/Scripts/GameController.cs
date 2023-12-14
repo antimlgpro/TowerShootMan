@@ -118,7 +118,7 @@ public class GameController : MonoBehaviour
 	}
 
 	void OnWaveFinish() {
-		int value = (int)Mathf.Floor(waveMoney + waveMoney * Mathf.Log10(4f * currentWave + 2f));
+		int value = waveMoney;
 
 		UpdateMoney(value + money);
 	}

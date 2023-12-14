@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88e42d7821e58164cae3a0c7349447b6, type: 3}
-  m_Name: Yellow enemy
+  m_Name: Pink Enemy
   m_EditorClassIdentifier: 
-  name: Yellow
-  baseHealth: 8
+  name: Pink
+  baseHealth: 16
   armorTier: 0
-  speed: 8
+  speed: 12
   moneyValue: 2
   escapePenalty: 1
   enemyPrefab: {fileID: 7214744477485525159, guid: 9a38a2d6ca8b654499128085e229e937,
     type: 3}
-  enemyMaterial: {fileID: 2100000, guid: f8a43569121b1e44285f71e4aa1b1a19, type: 2}
+  enemyMaterial: {fileID: 2100000, guid: 749382a042a07e847ae720d698cf0da1, type: 2}

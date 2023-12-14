@@ -887,7 +887,7 @@ MonoBehaviour:
   m_OnLevelSelect:
     m_PersistentCalls:
       m_Calls: []
-  artificialLoadingDelay: 1.2
+  artificialLoadingDelay: 1.5
 --- !u!4 &442891631
 Transform:
   m_ObjectHideFlags: 0

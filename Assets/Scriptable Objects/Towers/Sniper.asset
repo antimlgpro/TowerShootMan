@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dcc1c603baee234ba8b26304b3edc15, type: 3}
   m_Name: Sniper
   m_EditorClassIdentifier: 
-  damage: 50
+  damage: 4
   range: 50
   RPM: 100
   cost: 130

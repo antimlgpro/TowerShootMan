@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88e42d7821e58164cae3a0c7349447b6, type: 3}
-  m_Name: Boss
+  m_Name: Blue Enemy
   m_EditorClassIdentifier: 
-  name: Boss
-  baseHealth: 200
-  armorTier: 4
-  speed: 1
-  moneyValue: 100
-  escapePenalty: 100
-  enemyPrefab: {fileID: 7214744477485525159, guid: c145ecc2ebd842b49a4fd2dce8fa2b54,
+  name: Blue
+  baseHealth: 2
+  armorTier: 0
+  speed: 4
+  moneyValue: 2
+  escapePenalty: 1
+  enemyPrefab: {fileID: 7214744477485525159, guid: 9a38a2d6ca8b654499128085e229e937,
     type: 3}
-  enemyMaterial: {fileID: 2100000, guid: e6b640c5fb228734ab4f3c875c5476a4, type: 2}
+  enemyMaterial: {fileID: 2100000, guid: 9507d19744f4b8e4bb97a8ba7ea29ce1, type: 2}
