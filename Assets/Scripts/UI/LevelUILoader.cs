@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class LevelUIManager : MonoBehaviour
+public class LevelUILoader : MonoBehaviour
 {
 	[Serializable]
 	public class UILoadingException : Exception
