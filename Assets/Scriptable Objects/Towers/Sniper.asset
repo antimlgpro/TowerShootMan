@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Sniper
   m_EditorClassIdentifier: 
   damage: 50
-  range: 80
+  range: 50
   RPM: 100
   cost: 130
   sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}

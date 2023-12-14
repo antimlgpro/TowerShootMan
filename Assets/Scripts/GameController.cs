@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 
 // This class controlls UI, wave spawner and player state. 
@@ -21,6 +22,11 @@ public class GameController : MonoBehaviour
 	[SerializeField] private int moneyDefault = 100;
 	[SerializeField] private int healthDefault = 150;
 	[SerializeField] private int waveMoney = 100;
+
+
+	[Header("Loading")]
+	public string mainMenuScene;
+	[Range(0f, 100f)] public float artificialLoadingDelay;
 
 
 
@@ -49,7 +55,6 @@ public class GameController : MonoBehaviour
 	[SerializeField] public UnityEvent<int> m_OnPurchase;
 	[SerializeField] public UnityEvent<bool> m_PurchaseResult;
 	[SerializeField] public UnityEvent<bool> m_ToggleBuildMode;
-
 
 	// I really do not want to use a singelton here.
 	// Singelton pattern stolen from https://gamedevbeginner.com/singletons-in-unity-the-right-way/
@@ -170,9 +175,26 @@ public class GameController : MonoBehaviour
 		m_OnHealthUpdate.Invoke(health);
 	}
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+	/// This part was stolen from menu controller
+	// FIXME: Should this be in a separate script that can be reused
+	public void LoadLevel(string sceneName) {
+		LoadingScreen.Instance.m_OnLoadLevel.Invoke();
+		StartCoroutine(LoadLevelAsync(sceneName));
+	}
+
+	IEnumerator LoadLevelAsync(string sceneToLoad) {
+		yield return new WaitForSeconds(artificialLoadingDelay);
+
+		AsyncOperation operation = SceneManager.LoadSceneAsync(sceneToLoad);
+
+		operation.completed += (_) => {
+			LoadingScreen.Instance.m_OnFadeLoadingScreen.Invoke();
+		};
+
+		while (!operation.isDone)
+        {
+            yield return null;
+        }
+	}
 }

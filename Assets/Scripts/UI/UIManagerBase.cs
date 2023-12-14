@@ -4,6 +4,10 @@ using UnityEngine;
 
 public abstract class UIManagerBase : MonoBehaviour
 {
+	[Header("Hide UIManager")]
+	[SerializeField] protected bool isVisible;
+	[SerializeField] protected List<GameObject> objectsToHide;
+
 	public abstract bool LoadUIManager();
 
 	public void LogStatus(string message) {
@@ -11,5 +15,13 @@ public abstract class UIManagerBase : MonoBehaviour
 		// if (!logging) return
 
 		Debug.Log(message);
+	}
+
+	public void Toggle(bool value) {
+		isVisible = value;
+
+		foreach (GameObject toHide in objectsToHide) {
+			toHide.SetActive(isVisible);
+		}
 	}
 }

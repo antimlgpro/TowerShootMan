@@ -17,6 +17,7 @@ public class InfoUIManager : UIManagerBase
 	[SerializeField] private TextMeshProUGUI healthText;
 	[SerializeField] private TextMeshProUGUI moneyText;
 	[SerializeField] private Image buildBorder;
+	[SerializeField] private Button settingsButton;
 
 
 	[Header("Default")]
@@ -30,8 +31,14 @@ public class InfoUIManager : UIManagerBase
 
 		GameController.Instance.m_ToggleBuildMode.AddListener(ToggleBuildBorder);
 
+		settingsButton.onClick.AddListener(OnSettingsClick);
+
 		return true;
     }
+
+	private void OnSettingsClick() {
+		GameController.Instance.m_OnGamePause.Invoke();
+	}
 
 	public void UpdateWave(int value, int max) {
 		waveValue = value;
