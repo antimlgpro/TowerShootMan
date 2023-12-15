@@ -11,18 +11,6 @@
         },
         {
             "m_Id": "56089e2b626c40549bdac1e27831dd47"
-        },
-        {
-            "m_Id": "56363f00d7fd46459e7253b66aaa690a"
-        },
-        {
-            "m_Id": "b55ac3b1270e4f0a8b8bffd9a6d20b48"
-        },
-        {
-            "m_Id": "b7ce10e20f8a449288770bc32e306c59"
-        },
-        {
-            "m_Id": "e7dfddaaef804925b5b3c92e83d6d2d5"
         }
     ],
     "m_Keywords": [],
@@ -583,33 +571,6 @@
 }
 
 {
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
-    "m_ObjectId": "56363f00d7fd46459e7253b66aaa690a",
-    "m_Guid": {
-        "m_GuidSerialized": "e9901e3e-9cdc-4153-a54e-419c041b9231"
-    },
-    "m_Name": "Wave Height",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Wave Height",
-    "m_DefaultReferenceName": "_Wave_Height",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_Value": 0.0,
-    "m_FloatType": 0,
-    "m_RangeValues": {
-        "x": 0.0,
-        "y": 1.0
-    }
-}
-
-{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.CategoryData",
     "m_ObjectId": "5bf654af7b2e4be491bbac97199b6b03",
@@ -623,18 +584,6 @@
         },
         {
             "m_Id": "56089e2b626c40549bdac1e27831dd47"
-        },
-        {
-            "m_Id": "56363f00d7fd46459e7253b66aaa690a"
-        },
-        {
-            "m_Id": "b55ac3b1270e4f0a8b8bffd9a6d20b48"
-        },
-        {
-            "m_Id": "b7ce10e20f8a449288770bc32e306c59"
-        },
-        {
-            "m_Id": "e7dfddaaef804925b5b3c92e83d6d2d5"
         }
     ]
 }
@@ -945,60 +894,6 @@
 }
 
 {
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector2ShaderProperty",
-    "m_ObjectId": "b55ac3b1270e4f0a8b8bffd9a6d20b48",
-    "m_Guid": {
-        "m_GuidSerialized": "5a775b00-882a-4c57-9045-34b458257a68"
-    },
-    "m_Name": "Wave Direction",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Wave Direction",
-    "m_DefaultReferenceName": "_Wave_Direction",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_Value": {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0,
-        "w": 0.0
-    }
-}
-
-{
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
-    "m_ObjectId": "b7ce10e20f8a449288770bc32e306c59",
-    "m_Guid": {
-        "m_GuidSerialized": "8113b903-5a5a-4fb6-81a3-21be44048c92"
-    },
-    "m_Name": "Wave Speed",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Wave Speed",
-    "m_DefaultReferenceName": "_Wave_Speed",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_Value": 0.0,
-    "m_FloatType": 0,
-    "m_RangeValues": {
-        "x": 0.0,
-        "y": 1.0
-    }
-}
-
-{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "db772f56a0634877a893ddea274c3329",
@@ -1045,33 +940,6 @@
     },
     "m_Property": {
         "m_Id": "7deebf3265774865be70ebfb5f04b04a"
-    }
-}
-
-{
-    "m_SGVersion": 1,
-    "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
-    "m_ObjectId": "e7dfddaaef804925b5b3c92e83d6d2d5",
-    "m_Guid": {
-        "m_GuidSerialized": "73e10175-38cd-4c0f-b41b-c47d8412b280"
-    },
-    "m_Name": "Wave Strength",
-    "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "Wave Strength",
-    "m_DefaultReferenceName": "_Wave_Strength",
-    "m_OverrideReferenceName": "",
-    "m_GeneratePropertyBlock": true,
-    "m_UseCustomSlotLabel": false,
-    "m_CustomSlotLabel": "",
-    "m_Precision": 0,
-    "overrideHLSLDeclaration": false,
-    "hlslDeclarationOverride": 0,
-    "m_Hidden": false,
-    "m_Value": 0.0,
-    "m_FloatType": 0,
-    "m_RangeValues": {
-        "x": 0.0,
-        "y": 1.0
     }
 }
 
