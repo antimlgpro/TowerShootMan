@@ -1160,6 +1160,7 @@ MonoBehaviour:
   moneyDefault: 50
   healthDefault: 50
   waveMoney: 100
+  fastForwardMultiplier: 3
   mainMenuScene: Main Menu
   artificialLoadingDelay: 1.5
   m_OnWaveUpdate:
@@ -1214,6 +1215,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_OnWaveTrigger:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnWaveFastForward:
     m_PersistentCalls:
       m_Calls: []
   m_OnEnemyKilled:
@@ -2987,7 +2991,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 829073827}
   m_OnClick:
     m_PersistentCalls:
@@ -3005,7 +3009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8962264, g: 0.39400142, b: 0.39400142, a: 1}
+  m_Color: {r: 1, g: 0.31764707, b: 0.31764707, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4654,6 +4658,9 @@ MonoBehaviour:
   objectsToHide: []
   active: 0
   playButton: {fileID: 54158674}
+  fastForwardButton: {fileID: 829073826}
+  fastForwardMaterialIcon: {fileID: 1846126976}
+  fastForwardHighlight: {r: 1, g: 0.7137255, b: 0.46666667, a: 1}
 --- !u!114 &1496807217
 MonoBehaviour:
   m_ObjectHideFlags: 0

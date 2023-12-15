@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
 {
 	[SerializeField] private int currentWave;
 	[SerializeField] public List<Wave> waves = new();
+	private bool fastForward = false;
 
 
 	[SerializeField] private int money;
@@ -22,6 +23,9 @@ public class GameController : MonoBehaviour
 	[SerializeField] private int moneyDefault = 100;
 	[SerializeField] private int healthDefault = 150;
 	[SerializeField] private int waveMoney = 100;
+	[SerializeField, Range(0f, 10f)] private float fastForwardMultiplier = 4f;
+
+	[HideInInspector] public float FastForwardMultiplier => fastForwardMultiplier;
 
 
 	[Header("Loading")]
@@ -42,6 +46,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] public UnityEvent m_OnWaveStart;
 	[SerializeField] public UnityEvent m_OnWaveStop;
 	[SerializeField] public UnityEvent m_OnWaveTrigger;
+	[SerializeField] public UnityEvent<bool> m_OnWaveFastForward;
 	[SerializeField] public UnityEvent<EnemySO> m_OnEnemyKilled;
 	[SerializeField] public UnityEvent<EnemySO> m_OnEnemyEscaped;
 
@@ -100,6 +105,7 @@ public class GameController : MonoBehaviour
 		m_OnWaveStart ??= new();
 		m_OnWaveStop ??= new();
 		m_OnWaveTrigger ??= new();
+		m_OnWaveFastForward ??= new();
 
 		m_OnGameStart ??= new();
 		m_OnGamePause ??= new();
@@ -173,6 +179,11 @@ public class GameController : MonoBehaviour
 	void UpdateHealth(int value) {
 		health = value;
 		m_OnHealthUpdate.Invoke(health);
+	}
+
+	public void ToggleFastForward() {
+		fastForward = !fastForward;
+		m_OnWaveFastForward.Invoke(fastForward);
 	}
 
 

@@ -11,6 +11,9 @@ public class EnemyMover : MonoBehaviour
 	int targetNodeIndex = 1;
 	float speed = 0;
 
+	float fastForwardMultiplier = 0f;
+	bool fastForward = false;
+
 	bool isMoving = true;
 	public bool IsMoving => isMoving;
 
@@ -21,6 +24,13 @@ public class EnemyMover : MonoBehaviour
 		nodes = NodeManager.Instance.nodes;
 		m_Spawner = spawner;
 		isMoving = true;
+
+		fastForwardMultiplier = GameController.Instance.FastForwardMultiplier;
+		GameController.Instance.m_OnWaveFastForward.AddListener(FastForward);
+	}
+
+	void FastForward(bool value) {
+		fastForward = value;
 	}
 
 	public void Stop()
@@ -32,10 +42,13 @@ public class EnemyMover : MonoBehaviour
 	void Update()
 	{
 		if (isMoving == false) return;
-
 		if (nodes == null) return;
 
-		float t = speed * Time.deltaTime;
+		float _speed = speed;
+		if (fastForward) {
+			_speed *= fastForwardMultiplier;
+		}
+		float t = _speed * Time.deltaTime;
 
 		transform.position = Vector3.MoveTowards(
 				transform.position,

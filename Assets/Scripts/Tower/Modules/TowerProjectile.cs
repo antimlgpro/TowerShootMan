@@ -28,14 +28,25 @@ public class TowerProjectile : Tower
 	Collider[] colliders;
 	Transform[] targets;
 
+	// Fast forward
+	private bool fastForward;
+	float fastForwardMultiplier = 0f;
 
 	void Start()
 	{
+		fastForward = false;
+		fastForwardMultiplier = GameController.Instance.FastForwardMultiplier;
+		GameController.Instance.m_OnWaveFastForward.AddListener(FastForward);
+
 		towerResetPosition = transform.position;
 		gunResetPosition = gunPivot.transform.position;
 		colliders = new Collider[maxTargets];
 		targets = new Transform[maxTargets];
 		StartCoroutine(TowerLoop());
+	}
+
+	void FastForward(bool value) {
+		fastForward = value;
 	}
 
 	public override void ToggleTower(bool value)
@@ -95,6 +106,9 @@ public class TowerProjectile : Tower
 		// Leading the target
 		Vector3 targetPosition = target.transform.position;
 		float velocity = 30f;
+		if (fastForward) {
+			velocity *= fastForwardMultiplier;
+		}
 		targetPosition = LeadTarget(projectilePoint.transform.position, targetPosition, target.GetComponent<Velocity>().velocity, velocity);
 
 		AimAtTarget(targetPosition);
@@ -119,8 +133,13 @@ public class TowerProjectile : Tower
 				}
 			}
 
+			float rpm = towerObject.RPM;
+			if (fastForward) {
+				rpm *= fastForwardMultiplier;
+			}
+
 			// Time in seconds between shots
-			yield return new WaitForSeconds(1 / (towerObject.RPM / 60));
+			yield return new WaitForSeconds(1 / (rpm / 60));
 		}
 	}
 }
