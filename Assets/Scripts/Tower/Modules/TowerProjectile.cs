@@ -14,10 +14,10 @@ public class TowerProjectile : Tower
 	[SerializeField] private GameObject gunPivot;
 	[SerializeField] private GameObject projectilePoint;
 	[SerializeField] private GameObject projectileObject;
+	[SerializeField] private LayerMask targetingMask;
 
 	[SerializeField] private EnemySpawner enemySpawner;
-	[SerializeField]
-	private float noTargetCooldown = 1.5f;
+	[SerializeField] private float noTargetCooldown = 1.5f;
 
 	[SerializeField, Range(1, 40)]
 	private int maxTargets;
@@ -46,7 +46,7 @@ public class TowerProjectile : Tower
 	
 	// Not filtered
 	Transform[] GetTargetsInRange(Vector3 position, float range = 80f) {
-		int targets = Physics.OverlapSphereNonAlloc(position, range, colliders);
+		int targets = Physics.OverlapSphereNonAlloc(position, range, colliders, targetingMask);
 
 		Transform[] targetArray = new Transform[targets];
 		for (int i = 0; i < targets; i++)
@@ -69,7 +69,7 @@ public class TowerProjectile : Tower
 
 	Transform[] ValidateTargets(Transform[] targets) {
 		return targets.Where(x => {
-			return !Physics.Linecast(projectilePoint.transform.position, x.position, 1 << 3);
+			return !Physics.Linecast(projectilePoint.transform.position, x.position, ~targetingMask);
 		}).ToArray();
 	}
 
@@ -94,7 +94,7 @@ public class TowerProjectile : Tower
 	void ShootTarget(Transform target) {
 		// Leading the target
 		Vector3 targetPosition = target.transform.position;
-		float velocity = 100f;
+		float velocity = 30f;
 		targetPosition = LeadTarget(projectilePoint.transform.position, targetPosition, target.GetComponent<Velocity>().velocity, velocity);
 
 		AimAtTarget(targetPosition);
@@ -102,20 +102,19 @@ public class TowerProjectile : Tower
 		// Spawn projectile and push it towards target
 		GameObject projectile = Instantiate(projectileObject, projectilePoint.transform.position, Quaternion.identity);
 		projectile.GetComponent<Projectile>().Initialize(towerObject.damage);
-		projectile.GetComponent<Rigidbody>().AddForce(gunPivot.transform.forward * velocity, ForceMode.Impulse);
+		projectile.GetComponent<Rigidbody>().AddForce(gunPivot.transform.forward * velocity, ForceMode.VelocityChange);
 	}
+
 
 	protected override IEnumerator TowerLoop() {
 		while (true) {
 			if (towerEnabled) {
-				targets = ValidateTargets(
-					FilterTargetsByTag(
+				targets = ValidateTargets(FilterTargetsByTag(
 						GetTargetsInRange(transform.position, towerObject.range), 
-						"Enemy")
-					);
+						"Enemy"
+				));
 
 				if (targets.Length >= 1) {
-					Debug.DrawLine(projectilePoint.transform.position, targets[0].position, Color.red, 1);
 					ShootTarget(targets[0]);
 				}
 			}

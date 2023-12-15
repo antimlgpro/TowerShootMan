@@ -379,11 +379,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   placeAnimation: {fileID: 7648032501380168701}
   towerObject: {fileID: 11400000, guid: d826a980866ec9343bbc873164a3bc44, type: 2}
-  towerEnabled: 0
   gunPivot: {fileID: 2336889596326519090}
   projectilePoint: {fileID: 2070519753}
   projectileObject: {fileID: 1636553946169558733, guid: af6c1ccff899eb047942a394df5a57e5,
     type: 3}
+  targetingMask:
+    serializedVersion: 2
+    m_Bits: 128
   enemySpawner: {fileID: 0}
   noTargetCooldown: 1.5
   maxTargets: 25
