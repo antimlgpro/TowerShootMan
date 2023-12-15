@@ -6,7 +6,7 @@ public class EnemyMover : MonoBehaviour
 {
 	private EnemySO enemyObject;
 
-	private List<Transform> nodes;
+	private List<Vector3> nodes;
 	private EnemySpawner m_Spawner;
 	int targetNodeIndex = 1;
 	float speed = 0;
@@ -21,11 +21,12 @@ public class EnemyMover : MonoBehaviour
 	{
 		enemyObject = _enemyObject;
 		speed = _enemyObject.speed;
-		nodes = NodeManager.Instance.nodes;
+		nodes = NodeManager.Instance.smoothedNodes;
 		m_Spawner = spawner;
 		isMoving = true;
 
 		fastForwardMultiplier = GameController.Instance.FastForwardMultiplier;
+		fastForward = GameController.Instance.fastForward;
 		GameController.Instance.m_OnWaveFastForward.AddListener(FastForward);
 	}
 
@@ -52,11 +53,11 @@ public class EnemyMover : MonoBehaviour
 
 		transform.position = Vector3.MoveTowards(
 				transform.position,
-				nodes[targetNodeIndex].position,
+				nodes[targetNodeIndex],
 				t
 			);
 
-		var dist = Vector3.Distance(transform.position, nodes[targetNodeIndex].position);
+		var dist = Vector3.Distance(transform.position, nodes[targetNodeIndex]);
 		if (dist <= 0.5)
 		{
 			targetNodeIndex += 1;

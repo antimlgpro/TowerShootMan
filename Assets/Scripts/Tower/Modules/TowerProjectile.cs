@@ -35,8 +35,11 @@ public class TowerProjectile : Tower
 	void Start()
 	{
 		fastForward = false;
-		fastForwardMultiplier = GameController.Instance.FastForwardMultiplier;
-		GameController.Instance.m_OnWaveFastForward.AddListener(FastForward);
+		if (GameController.Instance) {
+			fastForwardMultiplier = GameController.Instance.FastForwardMultiplier;
+			GameController.Instance.m_OnWaveFastForward.AddListener(FastForward);
+			fastForward = GameController.Instance.fastForward;
+		}
 
 		towerResetPosition = transform.position;
 		gunResetPosition = gunPivot.transform.position;

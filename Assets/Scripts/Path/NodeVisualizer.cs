@@ -10,7 +10,7 @@ public class NodeVisualizer : MonoBehaviour
 	[SerializeField, Range(0.1f, 100f)] private float speed;
 	[SerializeField] private GameObject trailObject;
 
-	private List<Transform> nodes;
+	private List<Vector3> nodes;
 
 	private bool pause;
 	private int targetNodeIndex;
@@ -18,11 +18,11 @@ public class NodeVisualizer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        nodes = NodeManager.Instance.nodes;
+        nodes = NodeManager.Instance.smoothedNodes;
 
 		trailObject.SetActive(false);
 		targetNodeIndex = 0;
-		trailObject.transform.position = nodes[targetNodeIndex].position;
+		trailObject.transform.position = nodes[targetNodeIndex];
 		trailObject.SetActive(true);
 
 		GameController.Instance.m_OnWaveStart.AddListener(OnWaveStart);
@@ -50,11 +50,11 @@ public class NodeVisualizer : MonoBehaviour
 
 				trailObject.transform.position = Vector3.MoveTowards(
 					trailObject.transform.position,
-					nodes[targetNodeIndex].position,
+					nodes[targetNodeIndex],
 					t
 				);
 
-				var dist = Vector3.Distance(trailObject.transform.position, nodes[targetNodeIndex].position);
+				var dist = Vector3.Distance(trailObject.transform.position, nodes[targetNodeIndex]);
 				if (dist <= 0.5)
 				{
 					targetNodeIndex += 1;
@@ -64,7 +64,7 @@ public class NodeVisualizer : MonoBehaviour
 						trailObject.SetActive(false);
 						yield return new WaitForSeconds(resetDelay - delay);
 						targetNodeIndex = 0;
-						trailObject.transform.position = nodes[targetNodeIndex].position;
+						trailObject.transform.position = nodes[targetNodeIndex];
 						trailObject.SetActive(true);
 					};
 				}

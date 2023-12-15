@@ -11,8 +11,6 @@ public class GameController : MonoBehaviour
 {
 	[SerializeField] private int currentWave;
 	[SerializeField] public List<Wave> waves = new();
-	private bool fastForward = false;
-
 
 	[SerializeField] private int money;
 	[SerializeField] private int health;
@@ -23,6 +21,9 @@ public class GameController : MonoBehaviour
 	[SerializeField] private int moneyDefault = 100;
 	[SerializeField] private int healthDefault = 150;
 	[SerializeField] private int waveMoney = 100;
+
+	[Header("Fast Forward")]
+	public bool fastForward = false;
 	[SerializeField, Range(0f, 10f)] private float fastForwardMultiplier = 4f;
 
 	[HideInInspector] public float FastForwardMultiplier => fastForwardMultiplier;

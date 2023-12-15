@@ -31,11 +31,19 @@ public class EnemySpawner : MonoBehaviour
 	[HideInInspector] public UnityEvent<EnemySO> OnEnemyKilled;
 	[HideInInspector] public UnityEvent<EnemySO> OnEnemyFinished; // Invoked when an enemy reaches end of level.
 
-
+	// Fast forward
+	private bool fastForward;
+	float fastForwardMultiplier = 0f;
+	
 	[SerializeField] private bool DEBUG;
 
 	void Start()
 	{
+		fastForward = false;
+		fastForwardMultiplier = GameController.Instance.FastForwardMultiplier;
+		GameController.Instance.m_OnWaveFastForward.AddListener(FastForward);
+		fastForward = GameController.Instance.fastForward;
+
 		nodes = NodeManager.Instance.nodes;
 		waves = GameController.Instance.waves;
 
@@ -43,6 +51,10 @@ public class EnemySpawner : MonoBehaviour
 		InitializeEvents();
 
 		GameController.Instance.m_OnWaveUpdate.Invoke(currentWaveIndex, waves.Count);
+	}
+
+	void FastForward(bool value) {
+		fastForward = value;
 	}
 
 	void TriggerWave() {
@@ -163,8 +175,12 @@ public class EnemySpawner : MonoBehaviour
 	IEnumerator SpawnWave() {
 		foreach (var enemy in enemies) {
 			enemy.SetActive(true);
-
-			yield return new WaitForSeconds(waves[currentWaveIndex].timeBetweenEnemySpawn);
+			
+			float delay = waves[currentWaveIndex].timeBetweenEnemySpawn;
+			if (fastForward) {
+				delay *= 1 / GameController.Instance.FastForwardMultiplier;
+			}
+			yield return new WaitForSeconds(delay);
 		}
 
 		yield break;
