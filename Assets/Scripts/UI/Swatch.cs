@@ -21,15 +21,13 @@ public class Swatch : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI titleText;
 
 
-	private Vector2 circleDefaultPosition;
-	private Vector2 circleEnabledPosition;
+	[SerializeField] private Vector2 circleDefaultPosition;
+	[SerializeField] private Vector2 circleEnabledPosition;
 	private float elapsedTime = 0f;
 
     // Start is called before the first frame update
     void Awake()
     {
-		circleDefaultPosition = new Vector2(0, 0);
-		circleEnabledPosition = new Vector2(swatchTransform.rect.width - circle.rectTransform.rect.width, 0);
 		titleText.text = text;
 		fill.enabled = true;
     }
