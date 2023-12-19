@@ -64,6 +64,9 @@ public class Swatch : MonoBehaviour
       		yield return new WaitForEndOfFrame();
 		}
 
+		circle.rectTransform.anchoredPosition = target;
+		fill.rectTransform.sizeDelta = widthTarget;
+
 		isAnimating = false;
 	}
 }

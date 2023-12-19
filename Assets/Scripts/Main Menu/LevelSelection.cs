@@ -72,6 +72,8 @@ public class LevelSelection : MonoBehaviour
 		lastIndex = currentSelectedIndex;
 		currentSelectedIndex = index;
 
+		MenuController.Instance.m_LevelSwapResult.Invoke(scenes[currentSelectedIndex]);
+
 		MoveLevels(index);
 	}
 

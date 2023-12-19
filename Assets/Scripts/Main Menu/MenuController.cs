@@ -11,7 +11,7 @@ public class MenuController : MonoBehaviour
 	[HideInInspector] public UnityEvent<bool> m_ToggleMainMenu;
 
 
-	[HideInInspector] public UnityEvent m_OnClickPlay;
+	[HideInInspector] public UnityEvent m_FlipCamera;
 	[HideInInspector] public UnityEvent m_OnClickSettings;
 
 	// Invoked when camera started flipping.
@@ -21,6 +21,7 @@ public class MenuController : MonoBehaviour
 
 	// Level selection
 	[HideInInspector] public UnityEvent<bool> m_OnLevelSwap;
+	[HideInInspector] public UnityEvent<string> m_LevelSwapResult;
 	[HideInInspector] public UnityEvent m_OnClickSelectLevel;
 	[HideInInspector] public UnityEvent<string> m_OnLevelSelect;
 
@@ -44,7 +45,7 @@ public class MenuController : MonoBehaviour
 
     void Start()
     {
-    	m_OnClickPlay ??= new();
+    	m_FlipCamera ??= new();
 		m_OnClickSettings ??= new();
 		m_OnCameraFlip ??= new();
 
@@ -54,6 +55,7 @@ public class MenuController : MonoBehaviour
 		m_OnLevelSwap ??= new();
 		m_OnClickSelectLevel ??= new();
 		m_OnLevelSelect ??= new();
+		m_LevelSwapResult ??= new();
 
 		m_OnCameraFlip.AddListener(CameraFlip);
 		m_OnLevelSelect.AddListener(LoadLevel);

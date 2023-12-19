@@ -23,7 +23,7 @@ public class MenuUIManager : UIManagerBase
 
 
 	void PlayButtonProxy() {
-		MenuController.Instance.m_OnClickPlay.Invoke();
+		MenuController.Instance.m_FlipCamera.Invoke();
 	}
 
 	void SettingsButtonProxy() {

@@ -18,7 +18,7 @@ public class CameraFlipper : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 		elapsedTime = 0f;
 
-		MenuController.Instance.m_OnClickPlay.AddListener(Flip);
+		MenuController.Instance.m_FlipCamera.AddListener(Flip);
     }
 
 	float Elastic(float t) {
