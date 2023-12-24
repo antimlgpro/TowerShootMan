@@ -17,7 +17,7 @@ public abstract class UIManagerBase : MonoBehaviour
 		Debug.Log(message);
 	}
 
-	public void Toggle(bool value) {
+	public virtual void Toggle(bool value) {
 		isVisible = value;
 
 		foreach (GameObject toHide in objectsToHide) {

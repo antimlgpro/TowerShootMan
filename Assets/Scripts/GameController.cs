@@ -21,6 +21,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] private int moneyDefault = 100;
 	[SerializeField] private int healthDefault = 150;
 	[SerializeField] private int waveMoney = 100;
+	[SerializeField] public string currency = "$";
 
 	[Header("Fast Forward")]
 	public bool fastForward = false;
@@ -51,7 +52,6 @@ public class GameController : MonoBehaviour
 	[SerializeField] public UnityEvent<EnemySO> m_OnEnemyKilled;
 	[SerializeField] public UnityEvent<EnemySO> m_OnEnemyEscaped;
 
-
 	// Game State
 	[SerializeField] public UnityEvent m_OnGameStart;
 	[SerializeField] public UnityEvent m_OnGamePause;
@@ -61,6 +61,11 @@ public class GameController : MonoBehaviour
 	[SerializeField] public UnityEvent<int> m_OnPurchase;
 	[SerializeField] public UnityEvent<bool> m_PurchaseResult;
 	[SerializeField] public UnityEvent<bool> m_ToggleBuildMode;
+
+
+	// Upgrading
+	[SerializeField] public UnityEvent<TowerSelection> m_OnMarkTower;
+	[SerializeField] public UnityEvent<TowerData> m_OnTowerDataUpdate;
 
 	// I really do not want to use a singelton here.
 	// Singelton pattern stolen from https://gamedevbeginner.com/singletons-in-unity-the-right-way/
@@ -118,6 +123,9 @@ public class GameController : MonoBehaviour
 		m_OnPurchase ??= new();
 		m_PurchaseResult ??= new();
 		m_ToggleBuildMode ??= new();
+
+		m_OnMarkTower ??= new();
+		m_OnTowerDataUpdate ??= new();
 	}
 
 	void OnWaveUpdate(int current, int max) {
@@ -155,6 +163,11 @@ public class GameController : MonoBehaviour
 		return Purchase(towerObject.cost);
 	}
 
+	public void Sell(TowerSO towerObject) {
+		UpdateMoney(money + Mathf.CeilToInt(towerObject.cost * 0.8f));
+	}
+
+	// FIXME: Add types of purchase
 	public bool Purchase(int cost) {
 		bool result = InternalPurchase(cost);
 		m_PurchaseResult.Invoke(result);
@@ -208,5 +221,26 @@ public class GameController : MonoBehaviour
         {
             yield return null;
         }
+	}
+
+	
+	public class TowerSelection {
+		public GameObject towerGameObject;
+		public TowerSO towerSO;
+
+		public TowerSelection(GameObject _towerGameObject, TowerSO _towerSO) {
+			towerGameObject = _towerGameObject;
+			towerSO = _towerSO;
+		}
+	}
+
+	// TODO: Add more stats.
+	public class TowerData {
+		public int kills;
+
+		// Sell price increases with all upgrades bought
+		public int sellPrice;
+
+		public List<TowerUpgradeSO> availableUpgrades;
 	}
 }

@@ -6,8 +6,6 @@ using UnityEngine;
 public class TowerProjectile : Tower
 {
 	[SerializeField] private Animation placeAnimation;
-
-	[SerializeField] private TowerSO towerObject;
 	private bool towerEnabled = false;
 	[SerializeField] private bool TowerEnabled => towerEnabled;
 
