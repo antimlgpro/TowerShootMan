@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 2521389888950219557}
   - component: {fileID: 1801085461472762661}
   - component: {fileID: 5363077830696150305}
+  - component: {fileID: 71937940509542087}
   m_Layer: 8
   m_Name: Mini Gunner
   m_TagString: Untagged
@@ -280,8 +281,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6231112de08d14db75eece83fc507b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeAnimation: {fileID: 2521389888950219557}
   towerObject: {fileID: 11400000, guid: 054869d031a98f34b9ee1970048601dc, type: 2}
+  placeAnimation: {fileID: 2521389888950219557}
   gunPivot: {fileID: 2336889596326519090}
   projectilePoint: {fileID: 2070519753}
   projectileObject: {fileID: 1636553946169558733, guid: af6c1ccff899eb047942a394df5a57e5,
@@ -351,6 +352,18 @@ MonoBehaviour:
   meshRenderers:
   - {fileID: 4995634308685318286}
   - {fileID: 4995634310327366036}
+--- !u!114 &71937940509542087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4995634310413427204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdfa824d8d91abe48bbe5edebb3886f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5061941641416753268
 GameObject:
   m_ObjectHideFlags: 0

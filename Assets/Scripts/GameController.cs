@@ -40,32 +40,34 @@ public class GameController : MonoBehaviour
 	// UI Updating
 		// Should this be a event class instead??
 		// int1 = current, int2 = max
-	[SerializeField] public UnityEvent<int, int> m_OnWaveUpdate;
-	[SerializeField] public UnityEvent<int> m_OnMoneyUpdate;
-	[SerializeField] public UnityEvent<int> m_OnHealthUpdate;
+	public UnityEvent<int, int> m_OnWaveUpdate;
+	public UnityEvent<int> m_OnMoneyUpdate;
+	public UnityEvent<int> m_OnHealthUpdate;
 
 	// Waves
-	[SerializeField] public UnityEvent m_OnWaveStart;
-	[SerializeField] public UnityEvent m_OnWaveStop;
-	[SerializeField] public UnityEvent m_OnWaveTrigger;
-	[SerializeField] public UnityEvent<bool> m_OnWaveFastForward;
-	[SerializeField] public UnityEvent<EnemySO> m_OnEnemyKilled;
-	[SerializeField] public UnityEvent<EnemySO> m_OnEnemyEscaped;
+	public UnityEvent m_OnWaveStart;
+	public UnityEvent m_OnWaveStop;
+	public UnityEvent m_OnWaveTrigger;
+	public UnityEvent<bool> m_OnWaveFastForward;
+	public UnityEvent<EnemySO> m_OnEnemyKilled;
+	public UnityEvent<EnemySO> m_OnEnemyEscaped;
 
 	// Game State
-	[SerializeField] public UnityEvent m_OnGameStart;
-	[SerializeField] public UnityEvent m_OnGamePause;
+	public UnityEvent m_OnGameStart;
+	public UnityEvent m_OnGamePause;
 
 	// Building
-	[SerializeField] public UnityEvent<TowerSO> m_OnSelectBuildable;
-	[SerializeField] public UnityEvent<int> m_OnPurchase;
-	[SerializeField] public UnityEvent<bool> m_PurchaseResult;
-	[SerializeField] public UnityEvent<bool> m_ToggleBuildMode;
+	public UnityEvent<int> m_OnPurchase;
+	public UnityEvent<TowerSO> m_OnSelectBuildable;
+	public UnityEvent<bool> m_PurchaseResult;
+	public UnityEvent<bool> m_ToggleBuildMode;
 
 
 	// Upgrading
-	[SerializeField] public UnityEvent<TowerSelection> m_OnMarkTower;
-	[SerializeField] public UnityEvent<TowerData> m_OnTowerDataUpdate;
+	public UnityEvent<Guid> m_UpgradeOnSelect;
+	public UnityEvent m_UpgradeOnDeselect;
+	public UnityEvent<TowerSelection> m_OnMarkTower;
+	public UnityEvent<TowerData> m_OnTowerDataUpdate;
 
 	// I really do not want to use a singelton here.
 	// Singelton pattern stolen from https://gamedevbeginner.com/singletons-in-unity-the-right-way/
@@ -126,6 +128,8 @@ public class GameController : MonoBehaviour
 
 		m_OnMarkTower ??= new();
 		m_OnTowerDataUpdate ??= new();
+		m_UpgradeOnSelect ??= new();
+		m_UpgradeOnDeselect ??= new();
 	}
 
 	void OnWaveUpdate(int current, int max) {

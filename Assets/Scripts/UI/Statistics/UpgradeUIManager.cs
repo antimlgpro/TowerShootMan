@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,10 +12,10 @@ public class UpgradeUIManager : UIManagerBase
 	private TowerSO selectedTowerSO;
 
 	[Header("References")]
-	private TextMeshProUGUI titleText;
-	private TextMeshProUGUI killsText;
-	private TextMeshProUGUI sellPriceText;
-	private Image portraitImage;
+	[SerializeField] private TextMeshProUGUI titleText;
+	[SerializeField] private TextMeshProUGUI killsText;
+	[SerializeField] private TextMeshProUGUI sellPriceText;
+	[SerializeField] private Image portraitImage;
 
 	//private UpgradeManager upgradeManager;
 
@@ -26,6 +27,7 @@ public class UpgradeUIManager : UIManagerBase
 	[SerializeField] private Vector2 activePosition;
 	private bool isAnimating = false;
 	private bool goingOut = false;
+	private bool isOpen = false;
 
 	private Vector2 lastPosition;
 	private Vector2 target;
@@ -37,21 +39,50 @@ public class UpgradeUIManager : UIManagerBase
 		GameController.Instance.m_OnMarkTower.AddListener(SelectObject);
 		GameController.Instance.m_OnTowerDataUpdate.AddListener(UpdateUI);
 
+		GameController.Instance.m_UpgradeOnSelect.AddListener(OnSelect);
+		GameController.Instance.m_UpgradeOnDeselect.AddListener(OnDeselect);
+
 		// Animation
 		lastPosition = inactivePosition;
 		target = activePosition;
 		StartCoroutine(ToggleAnimation());
 
+		// HACK: This is stuped, fix in ui instead.
+		isAnimating = true;
+		SwapAnimationTarget();
+
 		return true;
+	}
+
+	private void OnDeselect()
+	{
+		Toggle(false);
+	}
+
+	private void OnSelect(Guid _)
+	{
+		Toggle(true);
 	}
 
 	public override void Toggle(bool value)
 	{
+		if (isOpen == value) return;
+
+		isOpen = value;
+
 		isAnimating = true;
 		SwapAnimationTarget();
 	}
 
 	private void SelectObject(GameController.TowerSelection towerSelection) {
+		if (towerSelection == null) {
+			// TODO: Implement default values maybe.
+			Toggle(false);
+			return;
+		} else {
+			Toggle(true);
+		}
+
 		selectedObject = towerSelection.towerGameObject;
 		selectedTowerSO = towerSelection.towerSO;
 
@@ -60,6 +91,7 @@ public class UpgradeUIManager : UIManagerBase
 	}
 
 	private void UpdateUI(GameController.TowerData towerData) {
+		Debug.Log("hello");
 		killsText.text = towerData.kills.ToString();
 		sellPriceText.text = string.Format("{0}{1}", 
 			GameController.Instance.currency, 

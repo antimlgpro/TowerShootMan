@@ -341,6 +341,7 @@ GameObject:
   - component: {fileID: 7648032501380168701}
   - component: {fileID: -5510281966026812677}
   - component: {fileID: 5987492721797706772}
+  - component: {fileID: 8552304461848728847}
   m_Layer: 8
   m_Name: Sniper
   m_TagString: Untagged
@@ -377,8 +378,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6231112de08d14db75eece83fc507b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  placeAnimation: {fileID: 7648032501380168701}
   towerObject: {fileID: 11400000, guid: d826a980866ec9343bbc873164a3bc44, type: 2}
+  placeAnimation: {fileID: 7648032501380168701}
   gunPivot: {fileID: 2336889596326519090}
   projectilePoint: {fileID: 2070519753}
   projectileObject: {fileID: 1636553946169558733, guid: af6c1ccff899eb047942a394df5a57e5,
@@ -448,6 +449,18 @@ MonoBehaviour:
   meshRenderers:
   - {fileID: 4995634308685318286}
   - {fileID: 4995634310327366036}
+--- !u!114 &8552304461848728847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4995634310413427204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdfa824d8d91abe48bbe5edebb3886f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6802043298084745156
 GameObject:
   m_ObjectHideFlags: 0

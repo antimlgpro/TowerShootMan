@@ -16,8 +16,19 @@ public class TowerStatistics : MonoBehaviour
     {
 		GUID = Guid.NewGuid();
         isSelected = false;
+		radiusSphere = GetComponentInChildren<RadiusSphere>();
+		tower = GetComponent<Tower>();
+
+
+		GameController.Instance.m_UpgradeOnSelect.AddListener(OnSelect);
+		GameController.Instance.m_UpgradeOnDeselect.AddListener(OnDeselect);
     }
 
+	public Guid GetGUID() {
+		return GUID;
+	}
+
+	// If target equals this tower guid. we got selected
 	void OnSelect(Guid targetGUID) {
 		if (targetGUID.Equals(GUID)) {
 			isSelected = true;
@@ -25,14 +36,17 @@ public class TowerStatistics : MonoBehaviour
 			Debug.LogFormat("Successfully selected {0}", GUID.ToString());
 
 			GameController.Instance.m_OnMarkTower.Invoke(new GameController.TowerSelection(gameObject, tower.towerObject));
-		}
-	}
-
-	void OnDeselect(Guid targetGUID) {
-		if (targetGUID.Equals(GUID)) {
+		} else {
 			isSelected = false;
 			radiusSphere.SetActive(false);
 			Debug.LogFormat("Successfully deselected {0}", GUID.ToString());
 		}
+	}
+
+	// if this is ran all towers are deselected.
+	void OnDeselect() {
+		isSelected = false;
+		radiusSphere.SetActive(false);
+		Debug.LogFormat("Successfully deselected {0}", GUID.ToString());
 	}
 }
