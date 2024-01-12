@@ -10,12 +10,14 @@ public class UpgradeUIManager : UIManagerBase
 	[Header("Upgrade UI")]
 	private GameObject selectedObject;
 	private TowerSO selectedTowerSO;
+	private int sellPrice;
 
 	[Header("References")]
 	[SerializeField] private TextMeshProUGUI titleText;
 	[SerializeField] private TextMeshProUGUI killsText;
 	[SerializeField] private TextMeshProUGUI sellPriceText;
 	[SerializeField] private Image portraitImage;
+	[SerializeField] private Button sellButton;
 
 	//private UpgradeManager upgradeManager;
 
@@ -35,7 +37,7 @@ public class UpgradeUIManager : UIManagerBase
 
 	public override bool LoadUIManager()
 	{
-		// UI
+		// Events
 		GameController.Instance.m_OnMarkTower.AddListener(SelectObject);
 		GameController.Instance.m_OnTowerDataUpdate.AddListener(UpdateUI);
 
@@ -50,8 +52,13 @@ public class UpgradeUIManager : UIManagerBase
 		// HACK: This is stuped, fix in ui instead.
 		isAnimating = true;
 		SwapAnimationTarget();
+		elapsedTime = 10f;
 
 		return true;
+	}
+
+	void Awake() {
+		sellButton.onClick.AddListener(OnSell);
 	}
 
 	private void OnDeselect()
@@ -66,6 +73,7 @@ public class UpgradeUIManager : UIManagerBase
 
 	public override void Toggle(bool value)
 	{
+		base.Toggle(value);
 		if (isOpen == value) return;
 
 		isOpen = value;
@@ -91,14 +99,25 @@ public class UpgradeUIManager : UIManagerBase
 	}
 
 	private void UpdateUI(GameController.TowerData towerData) {
-		Debug.Log("hello");
 		killsText.text = towerData.kills.ToString();
 		sellPriceText.text = string.Format("{0}{1}", 
 			GameController.Instance.currency, 
 			towerData.sellPrice
 		);
 
+		sellPrice = towerData.sellPrice;
+
 		//upgradeManager.Update(towerData);
+	}
+
+	private void OnSell() {
+		GameController.Instance.Sell(selectedObject, sellPrice);
+
+		selectedObject = null;
+		selectedTowerSO = null;
+		sellPrice = 0;
+
+		Toggle(false);
 	}
 
 	void SwapAnimationTarget() {

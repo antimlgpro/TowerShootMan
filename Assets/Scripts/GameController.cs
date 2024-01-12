@@ -21,7 +21,12 @@ public class GameController : MonoBehaviour
 	[SerializeField] private int moneyDefault = 100;
 	[SerializeField] private int healthDefault = 150;
 	[SerializeField] private int waveMoney = 100;
+	[SerializeField] public float sellPriceMultiplier = 0.7f;
 	[SerializeField] public string currency = "$";
+
+
+	[Header("Player Settings")]
+	public GameSettings Preferences;
 
 	[Header("Fast Forward")]
 	public bool fastForward = false;
@@ -55,6 +60,7 @@ public class GameController : MonoBehaviour
 	// Game State
 	public UnityEvent m_OnGameStart;
 	public UnityEvent m_OnGamePause;
+	public UnityEvent<GameSettings> m_OnPreferencesLoad;
 
 	// Building
 	public UnityEvent<int> m_OnPurchase;
@@ -89,6 +95,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
 		InitializeEvents();
+		LoadPreferences();
 
         currentWave = waveDefault;
 		money = moneyDefault;
@@ -117,6 +124,7 @@ public class GameController : MonoBehaviour
 
 		m_OnGameStart ??= new();
 		m_OnGamePause ??= new();
+		m_OnPreferencesLoad ??= new();
 
 		m_OnEnemyKilled ??= new();
 		m_OnEnemyEscaped ??= new();
@@ -137,6 +145,10 @@ public class GameController : MonoBehaviour
 	}
 
 	void OnWaveFinish() {
+		if (Preferences.AutoStart == true) {
+			m_OnWaveTrigger.Invoke();
+		}
+	
 		int value = waveMoney;
 
 		UpdateMoney(value + money);
@@ -167,10 +179,6 @@ public class GameController : MonoBehaviour
 		return Purchase(towerObject.cost);
 	}
 
-	public void Sell(TowerSO towerObject) {
-		UpdateMoney(money + Mathf.CeilToInt(towerObject.cost * 0.8f));
-	}
-
 	// FIXME: Add types of purchase
 	public bool Purchase(int cost) {
 		bool result = InternalPurchase(cost);
@@ -189,6 +197,11 @@ public class GameController : MonoBehaviour
 		}
 	}
 
+	public void Sell(GameObject tower, int sellPrice) {
+		UpdateMoney(money + sellPrice);
+		Destroy(tower);
+	}
+
 	void UpdateMoney(int value) {
 		money = value;
 		m_OnMoneyUpdate.Invoke(money);
@@ -204,10 +217,26 @@ public class GameController : MonoBehaviour
 		m_OnWaveFastForward.Invoke(fastForward);
 	}
 
+	void SavePreferences() {
+		PlayerPrefs.SetInt("AutoStart", Preferences.AutoStart ? 1 : 0);
+
+		PlayerPrefs.Save();
+	}
+
+	void LoadPreferences() {
+		Preferences = new()
+		{
+			AutoStart = PlayerPrefs.GetInt("AutoStart", 0) == 1
+		};
+
+		m_OnPreferencesLoad.Invoke(Preferences);
+	}
+
 
 	/// This part was stolen from menu controller
 	// FIXME: Should this be in a separate script that can be reused
 	public void LoadLevel(string sceneName) {
+		SavePreferences();
 		LoadingScreen.Instance.m_OnLoadLevel.Invoke();
 		StartCoroutine(LoadLevelAsync(sceneName));
 	}
@@ -246,5 +275,13 @@ public class GameController : MonoBehaviour
 		public int sellPrice;
 
 		public List<TowerUpgradeSO> availableUpgrades;
+	}
+
+	public class GameSettings {
+		public bool AutoStart;
+
+		public GameSettings() {
+			AutoStart = false;
+		}
 	}
 }

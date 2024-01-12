@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Mathematics;
+using UnityEngine.Events;
 
 public class Swatch : MonoBehaviour
 {
+	public UnityEvent<bool> OnValueChange;
+
 	private bool isEnabled;
 	private bool isAnimating;
 
@@ -30,9 +33,14 @@ public class Swatch : MonoBehaviour
     {
 		titleText.text = text;
 		fill.enabled = true;
+
+		ChangeValue(isEnabled);
     }
 
-	void Start() {		
+	void Start() {
+		OnValueChange ??= new();
+
+
 		isAnimating = false;
 		elapsedTime = 0f;
 
@@ -41,8 +49,24 @@ public class Swatch : MonoBehaviour
         swatchButton.onClick.AddListener(OnClick);
 	}
 
+	public void ChangeValue(bool value) {
+		isEnabled = value;
+
+		if (!isActiveAndEnabled) return;
+
+		if (isAnimating) return;
+		// to make setting instant.
+		elapsedTime = 100f;
+		if (isEnabled) {
+			StartCoroutine(MoveCircle(circleDefaultPosition, circleEnabledPosition, new Vector2(0f, 0f), new Vector2(swatchTransform.rect.width, 0f)));
+		} else {
+			StartCoroutine(MoveCircle(circleEnabledPosition, circleDefaultPosition, new Vector2(swatchTransform.rect.width, 0f), new Vector2(0f, 0f)));
+		}
+	}
+
 	void OnClick() {
 		isEnabled = !isEnabled;
+		OnValueChange.Invoke(isEnabled);
 
 		if (isAnimating) return;
 		elapsedTime = 0f;

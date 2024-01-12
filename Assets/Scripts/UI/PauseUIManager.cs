@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,9 @@ public class PauseUIManager : UIManagerBase
 	[SerializeField] private Button backButton;
 	[SerializeField] private Button restartButton;
 	[SerializeField] private Button continueButton;
+	[SerializeField] private Swatch autoStartSwatch;
 
-	
+
     public override bool LoadUIManager()
     {
 		Toggle(isVisible);
@@ -17,11 +19,15 @@ public class PauseUIManager : UIManagerBase
 		backButton.onClick.AddListener(OnBack);
 		restartButton.onClick.AddListener(OnRestart);
 		continueButton.onClick.AddListener(OnContinue);
+		autoStartSwatch.OnValueChange.AddListener(OnAutoStart);
 
 		GameController.Instance.m_OnGamePause.AddListener(OpenSettings);
+		GameController.Instance.m_OnPreferencesLoad.AddListener(OnLoadPreferences);
 
         return true;
     }
+
+
 
 	private void OpenSettings() {
 		Toggle(true);
@@ -40,5 +46,15 @@ public class PauseUIManager : UIManagerBase
 
 	private void OnContinue() {
 		Toggle(false);
+	}
+
+	private void OnAutoStart(bool value) {
+		GameController.Instance.Preferences.AutoStart = value;
+	}
+
+	private void OnLoadPreferences(GameController.GameSettings prefs) {
+		
+
+		autoStartSwatch.ChangeValue(prefs.AutoStart);
 	}
 }

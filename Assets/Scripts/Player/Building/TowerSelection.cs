@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TowerSelection : MonoBehaviour
 {
@@ -12,10 +13,12 @@ public class TowerSelection : MonoBehaviour
 	private GameObject currentSelectedObject;
 	private Guid currentSelectedGuid;
 	private bool towerIsMarked;
-	
 
-    // Start is called before the first frame update
-    void Start()
+	[SerializeField] private LayerMask UILayer;
+
+
+	// Start is called before the first frame update
+	void Start()
     {
         placingReference = GetComponent<Placing>();
     }
@@ -26,6 +29,7 @@ public class TowerSelection : MonoBehaviour
 		// Only detect towers when not building.
 		if (placingReference.BuildMode == false) FindTowerAtMouse();
 
+		if (EventSystem.current.IsPointerOverGameObject()) return;
 
 		if (Input.GetButtonDown("Fire1")) {
 			SelectTower();
