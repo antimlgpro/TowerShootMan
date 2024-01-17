@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
-public class UpgradeObject : MonoBehaviour
-{
+public class UpgradeObject : MonoBehaviour {
+	public UnityEvent<TowerUpgradeSO> OnBoughtUpgrade;
+
 	// Upgrades for this category
+	[SerializeField] public TowerUpgradeSO.UpgradeType upgradeType;
 	[SerializeField] private List<TowerUpgradeSO> towerUpgrades;
 	[SerializeField] private string maxUpgradeText;
 	[SerializeField] private int maxUpgrades; // Based on dots image, but this allows for easy changing that.
@@ -28,19 +31,17 @@ public class UpgradeObject : MonoBehaviour
 		currency = GameController.Instance.currency;
 
 		upgradeButton.onClick.AddListener(OnClickPurchase);
+		OnBoughtUpgrade ??= new();
+	}
 
-		// Load the first upgrade into UI
-		LoadUpgrade(0);
+	public void Initialize(List<TowerUpgradeSO> boughtUpgrades) {
+		Debug.Log("Bought Upgrades:" + boughtUpgrades.Count);
+		currentUpgradeIndex = boughtUpgrades.Count + 1;
+		LoadUpgrade(boughtUpgrades.Count);
 	}
 
 	void OnClickPurchase() {
 		BuyUpgrade(currentUpgradeIndex);
-	}
-	
-	void OnValidate() {
-		if (towerUpgrades.Count > 3) {
-			Debug.LogError("Max three upgrades at once");
-		}
 	}
 
 	void BuyUpgrade(int index) {
@@ -56,8 +57,7 @@ public class UpgradeObject : MonoBehaviour
 			return;
 		}
 
-		// Send event to affected tower
-		// Tower.onPurchase.Invoke(towerUpgrade);
+		OnBoughtUpgrade.Invoke(towerUpgrade);
 
 		LoadUpgrade(index + 1);
 	}
@@ -71,6 +71,9 @@ public class UpgradeObject : MonoBehaviour
 
 			return;
 		}
+
+		upgradeButton.interactable = true;
+
 		if (index >= towerUpgrades.Count) return;
 
 		TowerUpgradeSO towerUpgrade = towerUpgrades[index];

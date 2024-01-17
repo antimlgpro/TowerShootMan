@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f67bf4d3d3eefd34faf92894b13239c7, type: 3}
-  m_Name: Ultra damage
+  m_Name: More damage
   m_EditorClassIdentifier: 
-  upgradeName: Ultra Damage
-  cost: 5
-  effectMultiplier: 10
+  upgradeName: More damage
+  cost: 135
+  effectMultiplier: 1.1
   type: 0

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class TowerProjectile : Tower
-{
+public class TowerProjectile : Tower {
 	[SerializeField] private Animation placeAnimation;
 	private bool towerEnabled = false;
 	[SerializeField] private bool TowerEnabled => towerEnabled;
@@ -30,6 +29,12 @@ public class TowerProjectile : Tower
 	private bool fastForward;
 	float fastForwardMultiplier = 0f;
 
+	// Upgrades
+	private List<TowerUpgradeSO> towerUpgrades = new();
+	private float damage;
+	private float speed;
+	private float range;
+
 	void Start()
 	{
 		fastForward = false;
@@ -38,6 +43,10 @@ public class TowerProjectile : Tower
 			GameController.Instance.m_OnWaveFastForward.AddListener(FastForward);
 			fastForward = GameController.Instance.fastForward;
 		}
+
+		damage = towerObject.damage;
+		speed = towerObject.RPM;
+		range = towerObject.range;
 
 		towerResetPosition = transform.position;
 		gunResetPosition = gunPivot.transform.position;
@@ -116,7 +125,7 @@ public class TowerProjectile : Tower
 
 		// Spawn projectile and push it towards target
 		GameObject projectile = Instantiate(projectileObject, projectilePoint.transform.position, Quaternion.identity);
-		projectile.GetComponent<Projectile>().Initialize(towerObject.damage);
+		projectile.GetComponent<Projectile>().Initialize(damage);
 		projectile.GetComponent<Rigidbody>().AddForce(gunPivot.transform.forward * velocity, ForceMode.VelocityChange);
 	}
 
@@ -125,7 +134,7 @@ public class TowerProjectile : Tower
 		while (true) {
 			if (towerEnabled) {
 				targets = ValidateTargets(FilterTargetsByTag(
-						GetTargetsInRange(transform.position, towerObject.range), 
+						GetTargetsInRange(transform.position, range), 
 						"Enemy"
 				));
 
@@ -134,13 +143,36 @@ public class TowerProjectile : Tower
 				}
 			}
 
-			float rpm = towerObject.RPM;
+			float rpm = speed;
 			if (fastForward) {
 				rpm *= fastForwardMultiplier;
 			}
 
 			// Time in seconds between shots
 			yield return new WaitForSeconds(1 / (rpm / 60));
+		}
+	}
+
+	public override void AddUpgrade(TowerUpgradeSO towerUpgradeSO) {
+		towerUpgrades.Add(towerUpgradeSO);
+
+		ReloadParameters();
+	}
+
+	private void ReloadParameters() {
+		foreach(var upgrade in towerUpgrades) {
+			switch (upgrade.type) {
+				case TowerUpgradeSO.UpgradeType.Damage:
+					damage *= upgrade.effectMultiplier;
+					break;
+				case TowerUpgradeSO.UpgradeType.Speed: 
+					speed *= upgrade.effectMultiplier;
+					break;
+				case TowerUpgradeSO.UpgradeType.Range: 
+					range *= upgrade.effectMultiplier;
+					GetComponentInChildren<RadiusSphere>().SetRadius(range);
+					break;
+			}
 		}
 	}
 }

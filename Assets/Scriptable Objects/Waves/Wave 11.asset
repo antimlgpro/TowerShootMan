@@ -25,4 +25,4 @@ MonoBehaviour:
   - enemyObject: {fileID: 11400000, guid: 68eff8c7db0f5a34db3cf3e20b5186f6, type: 2}
     amount: 3
     speedMultiplier: 1
-  timeBetweenEnemySpawn: 0.25
+  timeBetweenEnemySpawn: 0.4

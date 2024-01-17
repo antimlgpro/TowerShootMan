@@ -12,6 +12,7 @@ public class TowerSelection : MonoBehaviour
 
 	private GameObject currentSelectedObject;
 	private Guid currentSelectedGuid;
+	private Guid lastSelectedGuid;
 	private bool towerIsMarked;
 
 	[SerializeField] private LayerMask UILayer;
@@ -54,11 +55,13 @@ public class TowerSelection : MonoBehaviour
 	}
 
 	private void SelectTower() {
-		if (towerIsMarked) {
-			Debug.LogFormat("selecting tower {0}", currentSelectedGuid.ToString());
+		if (towerIsMarked && lastSelectedGuid != currentSelectedGuid) {
+			//Debug.LogFormat("selecting tower {0}", currentSelectedGuid.ToString());
 			GameController.Instance.m_UpgradeOnSelect.Invoke(currentSelectedGuid);
+			lastSelectedGuid = currentSelectedGuid;
 		} else {
 			GameController.Instance.m_UpgradeOnDeselect.Invoke();
+			lastSelectedGuid = new();
 		}
 	}
 }

@@ -10,6 +10,8 @@ public class PauseUIManager : UIManagerBase
 	[SerializeField] private Button restartButton;
 	[SerializeField] private Button continueButton;
 	[SerializeField] private Swatch autoStartSwatch;
+	[SerializeField] private Swatch	buildModeSwatch;
+
 
 
     public override bool LoadUIManager()
@@ -20,6 +22,8 @@ public class PauseUIManager : UIManagerBase
 		restartButton.onClick.AddListener(OnRestart);
 		continueButton.onClick.AddListener(OnContinue);
 		autoStartSwatch.OnValueChange.AddListener(OnAutoStart);
+		buildModeSwatch.OnValueChange.AddListener(OnBuildMode);
+
 
 		GameController.Instance.m_OnGamePause.AddListener(OpenSettings);
 		GameController.Instance.m_OnPreferencesLoad.AddListener(OnLoadPreferences);
@@ -52,9 +56,12 @@ public class PauseUIManager : UIManagerBase
 		GameController.Instance.Preferences.AutoStart = value;
 	}
 
-	private void OnLoadPreferences(GameController.GameSettings prefs) {
-		
+	private void OnBuildMode(bool value) {
+		GameController.Instance.Preferences.DisableBuildModeOnBuild = value;
+	}
 
+	private void OnLoadPreferences(GameController.GameSettings prefs) {
 		autoStartSwatch.ChangeValue(prefs.AutoStart);
+		buildModeSwatch.ChangeValue(prefs.DisableBuildModeOnBuild);
 	}
 }

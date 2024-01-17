@@ -13,9 +13,6 @@ public class TowerSO : ScriptableObject
 	public int cost;
 	public Sprite sprite;
 
-	// Upgrades
-	// TODO: Tier object for upgrades
-
 
 	public enum TowerType
 	{

@@ -219,6 +219,7 @@ public class GameController : MonoBehaviour
 
 	void SavePreferences() {
 		PlayerPrefs.SetInt("AutoStart", Preferences.AutoStart ? 1 : 0);
+		PlayerPrefs.SetInt("DisableBuildMode", Preferences.DisableBuildModeOnBuild ? 1 : 0);
 
 		PlayerPrefs.Save();
 	}
@@ -226,7 +227,8 @@ public class GameController : MonoBehaviour
 	void LoadPreferences() {
 		Preferences = new()
 		{
-			AutoStart = PlayerPrefs.GetInt("AutoStart", 0) == 1
+			AutoStart = PlayerPrefs.GetInt("AutoStart", 0) == 1,
+			DisableBuildModeOnBuild = PlayerPrefs.GetInt("DisableBuildMode", 0) == 1
 		};
 
 		m_OnPreferencesLoad.Invoke(Preferences);
@@ -274,14 +276,16 @@ public class GameController : MonoBehaviour
 		// Sell price increases with all upgrades bought
 		public int sellPrice;
 
-		public List<TowerUpgradeSO> availableUpgrades;
+		public List<TowerUpgradeSO> boughtUpgrades;
 	}
 
 	public class GameSettings {
 		public bool AutoStart;
+		public bool DisableBuildModeOnBuild;
 
 		public GameSettings() {
 			AutoStart = false;
+			DisableBuildModeOnBuild = false;
 		}
 	}
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 public class Placing : MonoBehaviour
 {
@@ -67,6 +68,8 @@ public class Placing : MonoBehaviour
         if (Input.GetButtonDown("StartBuild")) {
 			ToggleBuildMode();
 		}
+
+		if (!EventSystem.current.IsPointerOverGameObject()) return;
 
 		if (Input.GetButtonDown("Fire1")) {
 			Place();
@@ -224,5 +227,9 @@ public class Placing : MonoBehaviour
 		spawnedTower.layer = LayerMask.NameToLayer("Tower");
 
 		spawnedTower.GetComponentInChildren<RadiusSphere>().SetRadius(TowerSO.range);
+
+		if (GameController.Instance.Preferences.DisableBuildModeOnBuild) {
+			SetBuildMode(false);
+		}
 	}
 }

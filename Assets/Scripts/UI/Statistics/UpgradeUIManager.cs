@@ -18,8 +18,7 @@ public class UpgradeUIManager : UIManagerBase
 	[SerializeField] private TextMeshProUGUI sellPriceText;
 	[SerializeField] private Image portraitImage;
 	[SerializeField] private Button sellButton;
-
-	//private UpgradeManager upgradeManager;
+	[SerializeField] private UpgradeManager upgradeManager;
 
 
 	[Header("Animation")]
@@ -73,7 +72,7 @@ public class UpgradeUIManager : UIManagerBase
 
 	public override void Toggle(bool value)
 	{
-		base.Toggle(value);
+		//base.Toggle(value);
 		if (isOpen == value) return;
 
 		isOpen = value;
@@ -99,6 +98,8 @@ public class UpgradeUIManager : UIManagerBase
 	}
 
 	private void UpdateUI(GameController.TowerData towerData) {
+		if (selectedObject == null) return;
+
 		killsText.text = towerData.kills.ToString();
 		sellPriceText.text = string.Format("{0}{1}", 
 			GameController.Instance.currency, 
@@ -107,7 +108,7 @@ public class UpgradeUIManager : UIManagerBase
 
 		sellPrice = towerData.sellPrice;
 
-		//upgradeManager.Update(towerData);
+		upgradeManager.UpdateUI(selectedObject, towerData);
 	}
 
 	private void OnSell() {

@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 307650a46e004484cafca8954b75c9e0, type: 3}
-  m_Name: Wave 1
+  m_Script: {fileID: 11500000, guid: f67bf4d3d3eefd34faf92894b13239c7, type: 3}
+  m_Name: Light speed shooting
   m_EditorClassIdentifier: 
-  enemyContainers:
-  - enemyObject: {fileID: 11400000, guid: 613c71f89c3cbd446a776e5f8f0d5c8d, type: 2}
-    amount: 20
-    speedMultiplier: 1
-  timeBetweenEnemySpawn: 0.4
+  upgradeName: Light speed shooting
+  cost: 650
+  effectMultiplier: 1.8
+  type: 2
