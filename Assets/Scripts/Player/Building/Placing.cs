@@ -55,8 +55,6 @@ public class Placing : MonoBehaviour
     }
 
 	void OnSelectBuildable(TowerSO towerSO) {
-		print(towerSO);
-
 		if (towerSO == null) SetBuildMode(false);
 
 		SelectTower(towerSO);
@@ -65,6 +63,8 @@ public class Placing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (!GameController.Instance.IsPlaying) return;
+
         if (Input.GetButtonDown("StartBuild")) {
 			ToggleBuildMode();
 		}

@@ -42,6 +42,7 @@ public class EnemyMover : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
+		if (!GameController.Instance.IsPlaying) return;
 		if (isMoving == false) return;
 		if (nodes == null) return;
 

@@ -132,6 +132,9 @@ public class TowerProjectile : Tower {
 
 	protected override IEnumerator TowerLoop() {
 		while (true) {
+			if (!GameController.Instance.IsPlaying) yield return null;
+
+
 			if (towerEnabled) {
 				targets = ValidateTargets(FilterTargetsByTag(
 						GetTargetsInRange(transform.position, range), 

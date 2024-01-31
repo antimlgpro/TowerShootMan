@@ -14,6 +14,9 @@ public class GameController : MonoBehaviour
 
 	[SerializeField] private int money;
 	[SerializeField] private int health;
+	[SerializeField] private bool isPlaying;
+	public bool IsPlaying => isPlaying;
+
 
 	// FIXME: Should be put inside a scriptable object.
 	[Header("Defaults")]
@@ -42,6 +45,9 @@ public class GameController : MonoBehaviour
 
 
 	[Header("Runtime events")]
+	public UnityEvent m_OnWinGame;
+	public UnityEvent m_OnLoseGame;
+
 	// UI Updating
 		// Should this be a event class instead??
 		// int1 = current, int2 = max
@@ -103,15 +109,23 @@ public class GameController : MonoBehaviour
 		health = healthDefault;
 		m_OnHealthUpdate.Invoke(health);
 
+		isPlaying = true;
+
 
 		m_OnEnemyKilled.AddListener(EnemyKilled);
 		m_OnEnemyEscaped.AddListener(EnemyEscaped);
 		m_PurchaseResult.AddListener(PurchaseResult);
 		m_OnWaveUpdate.AddListener(OnWaveUpdate);
 		m_OnWaveStop.AddListener(OnWaveFinish);
+		m_OnLoseGame.AddListener(() => SetIsPlaying(false));
+		m_OnWinGame.AddListener(() => SetIsPlaying(false));
     }
 
 	void InitializeEvents() {
+		m_OnWinGame ??= new();
+		m_OnLoseGame ??= new();
+
+
 		m_OnWaveUpdate ??= new();
 		m_OnMoneyUpdate ??= new();
 		m_OnHealthUpdate ??= new();
@@ -152,6 +166,10 @@ public class GameController : MonoBehaviour
 		int value = waveMoney;
 
 		UpdateMoney(value + money);
+
+		if (currentWave == waves.Count - 1) {
+			m_OnWinGame.Invoke();
+		}
 	}
 
 	void PurchaseResult(bool result) {
@@ -210,11 +228,19 @@ public class GameController : MonoBehaviour
 	void UpdateHealth(int value) {
 		health = value;
 		m_OnHealthUpdate.Invoke(health);
+
+		if (health <= 0) {
+			m_OnLoseGame.Invoke();
+		}
 	}
 
 	public void ToggleFastForward() {
 		fastForward = !fastForward;
 		m_OnWaveFastForward.Invoke(fastForward);
+	}
+
+	public void SetIsPlaying(bool value) {
+		isPlaying = value;
 	}
 
 	void SavePreferences() {
