@@ -10,7 +10,9 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
 	[SerializeField] private int currentWave;
-	[SerializeField] public List<Wave> waves = new();
+	[HideInInspector] public List<Wave> waves = new();
+	[SerializeField] private ListOfWaves listOfWaves;
+
 
 	[SerializeField] private int money;
 	[SerializeField] private int health;
@@ -102,6 +104,8 @@ public class GameController : MonoBehaviour
     {
 		InitializeEvents();
 		LoadPreferences();
+
+		waves = listOfWaves.waves;
 
         currentWave = waveDefault;
 		money = moneyDefault;
